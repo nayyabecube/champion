@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_register_payment" 
+            model="account.invoice"
+            name="register_payment.customer_report"
+            file="register_payment.customer_report"
+            report_type="qweb-html"
+            string=" "/>
+            
+
+         <record id="customer_wise_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">customer_wise_report_wizard_form_view</field>
+            <field name="model">reg.payment</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <group name="group_top">
+                        <group name="group_left"> 
+
+                            <field name="date_from"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="date_to"/>
+
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(report_for_register_payment)d" type="action" string="Print" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="reg_payment_report_wizard" model="ir.actions.act_window">
+            <field name="name">Register Payment Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">reg.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="customer_wise_report_wizard_form_view"/>
+            <field name="target">new</field> 
+        </record>
+
+
+        <menuitem name="Register Payment" id="reg_menu_item" parent="account.menu_finance_payables" action="reg_payment_report_wizard" sequence="11"/>       
+
+    </data>
+</openerp>
+
+

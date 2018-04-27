@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_module" 
+            model="champ.sales" 
+            name="champion_161_report.report_module" 
+            file="champion_161_report.report_module"
+            report_type="qweb-html"
+            string="161 Report"/>
+
+        <record id="view_form_champion_161_report" model="ir.ui.view">
+          <field name="name">view_form_champion_161_report</field>
+          <field name="model">champ.sales</field>
+          <field name="arch" type="xml">
+
+            <form string="Wizard">
+
+              <group name="group_top">
+
+                <group name="right">
+                  <field name="form"/>
+                </group>
+
+                <group name="left"> 
+                  <field name="to"/>
+                </group>
+
+              </group>
+
+                    <footer>
+                        <button name="%(report_for_module)d" type="action" string="Print" class="oe_highlight"/>
+                    </footer>
+            </form>
+
+          </field>
+
+        </record>
+
+        <record id="action_champion_161_report" model="ir.actions.act_window">
+          <field name="name">Report</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">champ.sales</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="view_id" ref="view_form_champion_161_report"/>
+          <field name="target">new</field>
+        </record>
+
+         <record id="action_tax_report" model="ir.actions.act_window">
+          <field name="name">Tax Report</field>
+          <field name="type">ir.actions.act_window</field>
+          <field name="res_model">champ.sales</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+        </record>
+
+        <menuitem id="menu_tax_report" name="Tax Reports" parent="account.menu_finance" sequence="10"/>
+
+        <menuitem id="menu_champion_161_report" name="161 Report" parent="menu_tax_report" action="action_champion_161_report" sequence=""/>
+
+    </data>
+</openerp>

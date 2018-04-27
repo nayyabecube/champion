@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <record id="CPInvoice_form_view"   model="ir.ui.view"> 
+        <field name="name">CPInvoice_form_view</field> 
+        <field name="model">account.invoice</field> 
+        <field name="inherit_id" ref="account.invoice_form"/> 
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="after">
+                <field name="discounted_amount" />
+                <field name="cp_tax_amount" />
+            </xpath>
+
+            <xpath expr="//field[@name='tax_line_ids']" position="replace">
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']" position="after">
+              <field name="tax_line_ids" />
+            </xpath>
+
+        </field> 
+    </record>
+
+  </data>
+</odoo>

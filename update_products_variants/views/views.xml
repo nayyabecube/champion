@@ -1,0 +1,47 @@
+<odoo>
+  <data>
+    
+         <record id="wizard_products_variants_form_view" model="ir.ui.view">
+            <field name="name">wizard_products_variants_form_view</field>
+            <field name="model">wizard.products.variants</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Update Products Variants">
+                    <sheet>
+                        <separator string=""/>
+                        <footer>
+                            <button string="Approve" name="setAllProductVariants" type="object" default_focus="1" class="oe_highlight"/>
+                            or
+                            <button string="Cancel" class="oe_link" special="cancel"/>
+                        </footer>
+                   </sheet> 
+                </form>
+            </field>
+        </record>
+
+        <record id="action_wizard_products_variants" model="ir.actions.act_window">
+                    <field name="name">Update Products Variants</field>
+                    <field name="res_model">wizard.products.variants</field>
+                    <field name="view_type">form</field>
+                    <field name="view_mode">tree,form</field>
+                   <field name="view_id" ref="wizard_products_variants_form_view"/>
+                   <field name="target">new</field>
+        </record>
+
+    <record id="update_products_variants_form_view"   model="ir.ui.view"> 
+        <field name="name">update_products_variants_form_view</field> 
+        <field name="model">product.template</field> 
+        <field name="inherit_id" ref="product.product_template_only_form_view"/> 
+        <field name="arch" type="xml">
+          <header>
+            <button name="%(action_wizard_products_variants)d" type='action' string="Update All Variants"/>
+            <!-- <button name="mytest" type='object' string="All Variants"/> -->
+          </header>
+            <!-- <xpath expr="//field[@name='barcode']" position="after">
+              <field name="x_my_field" />
+            </xpath> -->
+        </field> 
+    </record>
+
+  </data>
+</odoo>

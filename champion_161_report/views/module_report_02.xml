@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="report_module">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+
+                    <div class="page">
+
+                       <!--  <style>
+                            .report-container {
+                                width: 98%;
+                                margin: 0px auto;
+                            }
+
+                            h2 {
+                                text-align: left;
+                                width: 60%
+
+                            }
+
+                            table {
+                                border: 1px solid #000;
+                                margin: 10px 0px 0px;
+                                width: 100%;
+                                float: left;
+                                border-spacing: 0px;
+                            }
+
+                            table tr th,
+                            table tr td {
+                                border-right: 1px solid #000;
+                                text-align: center;
+                            }
+
+                            table tr th {
+                                padding: 10px 0px;
+                                background: #ccc;
+                                                                
+                            }
+
+                            table tr td {
+                                border-top: 1px solid #000;
+                                padding: 5px 0px;
+                            }
+
+            
+                        </style> -->
+
+                        <!-- <div class="report-container">
+
+
+                            <h3>DETAIL OF EXPENSES UNDER RULE 44 (4)</h3>
+                            <h3>TAX YEAR_____________</h3>
+
+                            <table>
+                                <tr>
+                                    <th>Sr No</th>
+                                    <th>HEAD OF ACCOUNTS</th>
+                                    <th>DATE OF PAYMENT</th>
+                                    <th>EXPENSE CLAIMED</th>
+                                    <th>PAYMENT MADE</th>
+                                    <th>TAXABLE PAYMENT</th>
+                                    <th>TAX DEDEUCTED</th>
+                                    <th>TAX DEPOSITED</th>
+                                    <th>BELOW TAXABLE</th>
+                                    <th>EXEMPT PAYMENT</th>
+                                    <th>NON TAXABLE</th>
+                                    <th>PAYABLE EXPENSE</th>
+                                    <th>REMARKS/ATTACHMENT</th>
+
+                                </tr>
+                                                        
+                                <tr>
+                                    <td>1</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>   
+                                    <td></td>   
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td><b>Total</b></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>   
+                                    <td></td>   
+                                </tr>
+                    
+                            </table>
+                    
+                       </div>
+ -->
+                    </div>
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

@@ -1,0 +1,174 @@
+<odoo>
+	
+
+<record id="account_bank_extension" model="ir.ui.view"> 
+        <field name="name">account_bank_extension</field> 
+        <field name="model">account.bank.statement</field>
+        <field name="inherit_id" ref="account.view_bank_statement_form"/>
+        <field name="type">form</field> 
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+              <attribute name="string">Receipt Journal</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='journal_id']" position="after">
+                <field name="payment_jurnl" domain="[('type', '=', 'cash')]"/> 
+                <field name="account_id" domain="[('bank', '=', 1)]" required = "True" attrs="{'readonly': [('state','!=','open')]}"/>   
+                <field name="current_balance" />      
+            </xpath>
+            <xpath expr="//field[@name='journal_id']" position="attributes">
+                 <attribute name ="attrs">{'readonly': [('state','!=','open')]}</attribute>       
+            </xpath>
+            <xpath expr="//field[@name='line_ids']" position="attributes">
+                 <attribute name ="attrs">{'readonly': [('state','!=','in_progress')]}</attribute>       
+            </xpath>
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="name" invisible = "True"/> 
+            </xpath>  
+            <xpath expr="//field[@name='balance_start']" position="replace"/>
+            <xpath expr="//field[@name='balance_end']" position="replace"/>
+            <xpath expr="//field[@name='balance_end_real']" position="replace"/>
+            
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="before">
+                    
+                <field name="account_id" string = "Account Head"/>     
+               <!--  <field name="bank" />   -->     
+                <field name="journal_entry_id" invisible = "1" />       
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='ref']" position="replace">
+                     
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='amount']" position="replace">
+                     <field name="amount" invisible = "1" /> 
+            </xpath>
+
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='partner_id']" position="replace">
+                     <field name="partner_id" invisible = "1" /> 
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/tree/field[@name='name']" position="replace">
+                <field name="name" string = "Description" />       
+                <field name="paid"  />       
+                <field name="received"  />       
+
+                     
+            </xpath>
+
+           <!--  <xpath expr="//field[@name='balance_end']" position="attributes">
+              <attribute name="attrs">{'invisible': 1}</attribute>
+
+            </xpath> -->
+
+
+
+
+
+
+            <xpath expr="//button[@name='152']" position="replace">
+                <!-- <button name="post" type="object" string="Post Enteries" class="oe_highlight"/> -->
+            </xpath>
+
+            <xpath expr="//button[@name='152']" position="replace">
+                <!-- <button name="post" type="object" string="Post Enteries" class="oe_highlight"/> -->
+            </xpath>
+
+             <!-- <xpath expr="//button[@name='153']" position="replace">
+                
+            </xpath>
+
+            <xpath expr="//button[@name='153']" position="replace">
+                
+            </xpath> -->
+            <!-- <xpath expr="//button[@name='button_cancel']" position="replace"/> -->
+            <!-- <xpath expr="//button[@name='button_draft']" position="replace"/> -->
+            <xpath expr="//button[@name='check_confirm_bank']" position="replace">
+                <button name="post" type="object" string="Post" class="oe_highlight" attrs="{'invisible': [('state','!=','in_progress')]}"/>
+                <button name="validate_entries" type="object" string="Validate" class="oe_highlight" attrs="{'invisible': [('state','!=','in_progress')]}"/>
+                <button name="in_progress" type="object" string="In-Progress" class="oe_highlight" attrs="{'invisible': [('state','!=','open')]}"/>
+                
+            </xpath>
+
+            <xpath expr="//button[@name='button_cancel']" position="replace">
+                <button name="reset_progress" type="object" string="Reset To Progress" class="oe_highlight" attrs="{'invisible': [('state','!=','confirm')]}"/>
+            </xpath>
+
+            
+        </field>
+    </record>
+
+    <record id="account_act_extension" model="ir.ui.view"> 
+      <field name="name">account_act_extension</field> 
+      <field name="model">account.account</field>
+      <field name="inherit_id" ref="account.view_account_form"/>
+      <field name="type">form</field> 
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='deprecated']" position="after">  
+            <field name="bank" />      
+        </xpath>
+
+      </field>
+    </record>
+
+   <!--  <record model="ir.rule" id="ir_values_active_branch_cash">
+          <field name="name">Active User Branch Rule Cash</field>
+          <field name="model_id" ref="cash_and_bank.model_account_bank_statement"/>
+          <field name="domain_force">[('branch','=',user.branch.id)]</field>
+          <field name="perm_read" eval="True"/>
+          <field name="perm_write" eval="True"/>
+          <field name="perm_unlink" eval="True"/>
+          <field name="perm_create" eval="True"/>
+        </record> -->
+ 
+        <record model="ir.actions.act_window" id="payment_configuration">
+            <field name="name">Cash</field>
+            <field name="res_model">account.bank.statement</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('journal_id.type', '=', 'cash')]</field>
+            <field name="context">{'journal_type':'cash'}</field>
+        </record>
+
+
+
+
+
+        <record model="ir.actions.act_window" id="bank_configuration">
+          <field name="name">Bank</field>
+          <field name="res_model">account.bank.statement</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">tree,form</field>
+          <field name="domain">[('journal_id.type', '=', 'bank')]</field>
+          <field name="context">{'journal_type':'bank'}</field>
+        </record>
+
+
+        <menuitem name="Cash"
+          id="cash_configuration_main"
+          parent="account.menu_finance"
+          sequence="1"/>
+
+
+        <menuitem name="Cash"
+            id="cash_sales_configuration"
+            parent="cash_configuration_main"
+            action="payment_configuration"
+            sequence="1"/>
+
+
+        <menuitem name="Bank"
+            id="bank_sales_configuration"
+            parent="cash_configuration_main"
+            action="bank_configuration"
+            sequence="2"/>
+
+
+    
+
+
+    
+
+
+</odoo>

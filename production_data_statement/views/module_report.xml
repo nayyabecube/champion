@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <t t-foreach="count" t-as="o"> -->
+
+                    <div class="page">
+
+                        <style>
+
+                            .main-data {
+                                width: 100%;
+                            }
+                            body {
+                                text-align: right;
+                            }
+                            .center-data {
+                                width: 1000px;
+                                margin: 0px auto;
+                            }
+                            .center-data p {
+                                text-align: center;
+                            }
+                            table, td, th {
+                                text-align: center;
+                                border: 1px solid;
+                                border-collapse: collapse;
+                                padding: 6px;
+                                margin: 10px 0px 10px 0px;
+                            }
+                            table td {
+                                font-size: 10px;
+                            }
+                            .solid {
+                                font-weight: bold;
+                                margin-left: 5px;
+                            }
+                            .liquid {
+                                margin-left: 0px;
+                            }
+                            h3 {
+                                text-align: center;
+                            }
+                            .ntn {
+                                width: 33%;
+                                float: left;
+                            }
+                            .ntn .liquid {
+                                width: 50%;
+                                border: 1px solid;
+                                display: inline-block;
+                            }
+                            .champion {
+                                width: 100%;
+                            }
+                            .champion .liquid {
+                                width: 80%;
+                                border: 1px solid;
+                                display: inline-block;
+                            }
+                            
+                        </style>
+
+                        <div class="main-data">
+
+                            <div class="center-data">
+                                <h3>SPECIAL RETURN</h3>
+                                <p>For Production and Supplier</p>
+                                <p>{Under section 27{a} of the Sales  Tax Act. 1990).</p>
+                                <h3>PRODUCTION DATA STATEMENT</h3>
+                                <div class="ntn">
+                                    <p><span class="solid">NTN</span>
+                                    <span class="liquid">1297729-2</span></p>
+                                </div>
+                                <div class="ntn">
+                                    <p><span class="solid">STRN</span>
+                                    <span class="liquid">03-06-3208-013-82</span></p>
+                                </div>
+                                <div class="ntn">
+                                    <p><span class="solid">Tax Period</span>
+                                    <span class="liquid" t-esc="time.strftime('%m-%Y',time.strptime(date_from,'%Y-%m-%d'))"></span></p>
+                                </div>
+                                <p class="champion"><span class="solid">Name of Registered Person</span>
+                                <span class="liquid">Champion Paint Industries (Pvt) Limited, Hanjawal, Multan Road,  Lahore.</span></p>
+                                <table width="100%">
+                                    <tr>
+                                        <th>S.NO</th>
+                                        <th>Description</th>
+                                        <th>Units of Measures</th>
+                                        <th>Installed Monthly Capacity</th>
+                                        <th>Quantity in Opening Balance</th>
+                                        <th>Quantity Produced</th>
+                                        <th>Quantity Supplied</th>
+                                        <th>Value Of Qty Supplied (Rs).</th>
+                                        <th>Quantity in Closing Balance</th>
+                                    </tr>
+
+                                    <t t-set="close_lit" t-value="0"/>
+                                    <t t-set="close_kg" t-value="0"/>
+                                    <t t-set="open_tot" t-value="0"/>
+                                    <t t-set="open_mt" t-value="0"/>
+                                    <t t-set="prod_tot" t-value="0"/>
+                                    <t t-set="supp_tot" t-value="0"/>
+                                    <t t-set="close_tot" t-value="0"/>
+            
+
+                                    <tr>
+                                        <td>
+                                            1
+                                        </td>
+
+                                        <td>
+                                            <span>Paints,Varnishes &amp; Thinner</span>
+                                        </td>
+
+                                        <td>Litres &amp; Kgs</td>
+
+                                        <td>
+                                        <p><span class="solid">litters</span>
+                                        <span class="liquid">55000</span></p>
+                                        <p><span class="solid">Kgs</span>
+                                        <span class="liquid">13000</span></p>
+                                        </td>
+
+                                        <td>
+                                        <p><span class="solid">litters</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_open_lit()))"></span></p>
+                                        <p><span class="solid">Kgs</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_open_kg()))"></span></p>
+                                        </td>
+
+                                        <td>
+                                        <p><span class="solid">litters</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_lit()))"></span></p>
+                                        <p><span class="solid">Kgs</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(get_kg()))"></span></p>
+                                        <t t-set="open_mt" t-value="get_lit()+get_kg()"/>
+
+                                        </td>
+                                        
+                                        <td>
+                                        <p><span class="solid">litters</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(inv_lit()))"></span></p>
+                                        <p><span class="solid">Kgs</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(inv_kg()))"></span></p>
+                                        </td>
+
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_sub()))"></span>
+                                        </td>
+
+                                        <td>
+                                        <p><span class="solid">litters</span>
+                                        <t t-set="close_lit" t-value="get_open_lit()+get_lit()-inv_lit()"/>
+                                        <t t-set="close_kg" t-value="get_open_kg()+get_kg()-inv_kg()"/>
+                                        <span t-esc="'{0:,.2f}'.format(float(close_lit))"></span></p>
+                                        <p><span class="solid">Kgs</span>
+                                        <span t-esc="'{0:,.2f}'.format(float(close_kg))"></span></p>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Total</td>
+                                        <td>68000</td>
+                                        <td>
+                                            <t t-set="open_tot" t-value="get_open_lit()+get_open_kg()"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(open_tot))"></span>
+                                        </td>
+                                        <td>
+                                            <t t-set="prod_tot" t-value="tot_lit()"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(open_mt))"></span>
+                                        </td>
+                                        <td>
+                                            <t t-set="supp_tot" t-value="inv_lit()+inv_kg()"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(supp_tot))"></span>
+                                        </td>
+                                        <td style="border-top:hidden"></td>
+                                        <td>
+                                            <t t-set="close_tot" t-value="close_lit+close_kg"/>
+                                            <span t-esc="'{0:,.2f}'.format(float(close_tot))"></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <table width="100%">
+                                    <tr>
+                                        <th>S.NO</th>
+                                        <th>Description</th>
+                                        <th>Units of Measures</th>
+                                        <th>Installed Monthly Capacity</th>
+                                        <th>Quantity in Opening Balance</th>
+                                        <th>Quantity Produced</th>
+                                        <th>Quantity Supplied</th>
+                                        <th>Value Of Qty Supplied (Rs).</th>
+                                        <th>Quantity in Closing Balance</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Paints Varnishes &amp; Thinner</td>
+                                        <td>M.T</td>
+                                        <td>80 MT</td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(get_open_kg()/1000))"></span>
+                                            MT
+                                        </td>   
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(get_mt()/1000))"></span>
+                                            MT
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_kg()/1000))"></span>
+                                            MT
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_sub()))"></span>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(close_kg/1000))"></span>
+                                            MT
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+
+                        </div>  
+
+                    </div>
+
+                    <!-- </t> -->
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

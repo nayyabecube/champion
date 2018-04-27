@@ -1,0 +1,52 @@
+<odoo>
+  <data>
+    <record id="type_form_view"   model="ir.ui.view"> 
+        <field name="name">type_form_view</field> 
+        <field name="model">res.partner</field> 
+        <field name="inherit_id" ref="base.view_partner_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+              <field name="tax_payment" widget="many2many_tags" domain="[('with_holding', '=', True)]"/>
+              <field name="buyer_type" />
+              <button name="create_invoice" type="object" string="Set Acoount" class="oe_highlight"/>
+
+            </xpath>
+            
+            <xpath expr="//field[@name ='property_account_position_id']" position="attributes">
+                <attribute name="domain">[('nonfiler', '!=', True)]</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name ='property_account_position_id']" position="after">
+                <field name="filer_type"/>
+            </xpath>
+
+        </field> 
+    </record>
+
+    <record id="tax_form_view"   model="ir.ui.view"> 
+        <field name="name">tax_form_view</field> 
+        <field name="model">account.tax</field> 
+        <field name="inherit_id" ref="account.view_tax_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+              <field name="payment_sec" />
+            </xpath>
+            
+        </field> 
+    </record>
+
+    <record id="fiscal_form_view"   model="ir.ui.view"> 
+        <field name="name">fiscal_form_view</field> 
+        <field name="model">account.fiscal.position</field> 
+        <field name="inherit_id" ref="account.view_account_position_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+              <field name="nonfiler" />
+            </xpath>
+            
+        </field> 
+    </record>
+   
+    
+  </data>
+</odoo>

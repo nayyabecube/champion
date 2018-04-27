@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <t t-foreach="count" t-as="o">
+
+                        <div class="page">
+
+                            <style>
+
+                                .main-data {
+                                    width: 100%;
+                                }
+                                .center-data {
+                                    width: 1150px;
+                                    margin: 0px auto;
+                                }
+                                .purchase {
+                                    width: 75%;
+                                    float: left;
+                                }
+                                .purchase p{
+                                    text-align: right;
+                                }
+                                h3 {
+                                    text-align: right;
+                                    width: 83%
+                                }
+                                .sale-tax {
+                                    width: 20%;
+                                    float: right;
+                                }
+                                .sale-tax .liquid {
+                                    width: 50%;
+                                    border-bottom: 1px solid;
+                                    display: inline-block;
+                                }
+                                .solid {
+                                    font-weight: bold;
+                                    margin-left: 0px;
+                                }
+                                .liquid {
+                                    margin-left: 0px;
+                                }
+                                .clearfloat {
+                                    clear: both;
+                                    float: none;
+                                }
+
+                                table tr td.space {
+                                    width: 100px;
+                                    min-width: 100px;
+                                    max-width: 100px;
+                                }
+
+                                table, td, th {
+                                    border: 1px solid;
+                                    border-collapse: collapse;
+                                    padding: 8px;
+                                    text-align: center;
+                                }
+                                tr td {
+                                    font-size: 10px;
+                                }
+                                .no-margin {
+                                    margin-top: 0px;
+                                    margin-bottom: 0px;
+                                    padding: 3px;
+                                }
+
+                            </style>
+
+                            <div class="main-data">
+
+                                <div class="center-data">
+                                    <div class="purchase">
+                                        <h3 class="no-margin">PURCHASE REGISTER</h3>
+                                        <p class="no-margin"><b>UNDER SECTION 22 (1) (B) OF SALES TAX (AMENDMENT) ACT, 1990</b></p>
+                                    </div>
+                                    <div class="sale-tax">
+                                        <p class="no-margin"><span class="solid">Month:</span>
+                                        <span class="liquid"></span></p>
+                                        <p class="no-margin"><span class="solid">Item:</span>
+                                        <span class="liquid"></span></p>
+
+                                    </div>
+                                    <table width="100%">
+                                        <tr>
+                                            <th>DATE</th>
+                                            <th colspan="3">NAME AND ADDRESS OF SUPPLIER WITH S. TAX NO.</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>INVOICE NO.</th>
+                                            <th>QUANTITY UNITS</th>
+                                            <th>UNIT PRICE</th>
+                                            <th>VALUE EX. S. TAX</th>
+                                            <th>SALES TAX %</th>
+                                            <th>VALUE IN. S. TAX.</th>
+                                        </tr>
+                                        <tr>
+                                            <th>1</th>
+                                            <th colspan="3">2</th>
+                                            <th>3</th>
+                                            <th>3A</th>
+                                            <th>4</th>
+                                            <th>5</th>
+                                            <th>6</th>
+                                            <th>7</th>
+                                            <th>8</th>
+                                        </tr>
+
+                                        <t t-set="q_total" t-value="0"/>
+                                        <t t-set="ex_total" t-value="0"/>
+                                        <t t-set="sal_total" t-value="0"/>
+                                        <t t-set="val_total" t-value="0"/>
+                                        <t t-foreach="docs" t-as="data">
+
+                                            <tr>
+                                                <td class="space">
+                                                    <span t-esc="time.strftime('%d-%m-%Y',time.strptime(data.invoice_id.date_invoice,'%Y-%m-%d'))"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.invoice_id.partner_id.name"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.invoice_id.partner_id.city"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.invoice_id.vender_ntn"></span>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.product_id.name"></span>
+                                                    (<t t-esc="data.uom_id.name"/>)
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.invoice_id.invoice_no"></span>
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-esc="data.quantity"></span>
+                                                    <t t-set="q_total" t-value="q_total+data.quantity"/>
+
+                                                    
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'{:0,}'.format(int(float(data.price_unit)))"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'{:0,}'.format(int(float(data.price_subtotal)))"></span>
+                                                    <t t-set="ex_total" t-value="ex_total+data.price_subtotal"/>
+
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'{:0,}'.format(int(float(data.bcube_amount_tax)))"></span>
+                                                    <t t-set="sal_total" t-value="sal_total+data.bcube_amount_tax"/>
+
+                                                </td>
+                                                <td>
+                                                    <span t-esc="'{:0,}'.format(int(float(data.amount_incl_tax)))"></span>
+                                                    <t t-set="val_total" t-value="val_total+data.amount_incl_tax"/>
+
+                                                </td>
+
+                                            </tr>
+                                        </t>
+                                            <tr>
+                                                <td colspan="6" style="font-weight:bold">Total</td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(q_total)))"></span>
+                                                </td>
+                                                <td>
+                                                    
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(ex_total)))"></span>
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(sal_total)))"></span>
+                                                </td>
+                                                <td style="font-weight:bold">
+                                                    <span t-esc="'{:0,}'.format(int(float(val_total)))"></span>
+                                                </td>
+                                            </tr>
+                                            
+                                    </table>
+
+                                </div>
+                                
+                            </div>  
+
+                        </div>
+
+                    </t>
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

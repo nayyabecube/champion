@@ -1,0 +1,197 @@
+<odoo>
+  <data>
+
+
+                        <!--*********************************************************************  -->
+                                                  <!--Tax Form Start -->
+                        <!--*********************************************************************  -->
+
+    <record id="CPTax_form_view"   model="ir.ui.view"> 
+        <field name="name">CPTax_form_view</field> 
+        <field name="model">account.tax</field> 
+        <field name="inherit_id" ref="account.view_tax_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type_tax_use']" position="after">
+              <field name="cp_sales_type" />
+              <field name="cp_sro_no" />
+              <field name="cp_item_sr_no" />
+              <field name="cp_item_desc" />
+              <field name="fbr_tax_code" />
+            </xpath>
+
+            <xpath expr="//field[@name='children_tax_ids']" position="attributes">
+              <attribute name="attrs">{'invisible':['|', ('amount_type','=','werw'), ('type_tax_use','=','wer')]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='refund_account_id']" position="after">
+              <field name="enable_child_tax" />
+            </xpath>
+        </field> 
+    </record>
+
+                        <!--*********************************************************************  -->
+                                                    <!--Tax Form End -->
+                        <!--*********************************************************************  -->
+
+
+                        <!--*********************************************************************  -->
+                                              <!-- Customer Invoices Form Start -->
+                        <!--*********************************************************************  -->
+
+    <record id="customer_invoices_bc_form_view"   model="ir.ui.view"> 
+        <field name="name">customer_invoices_bc_form_view</field> 
+        <field name="model">account.invoice</field> 
+        <field name="inherit_id" ref="account.invoice_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="replace">
+              <field name="bcube_taxes_id"  widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','sale'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
+              <field name="bcube_amount_tax"/>
+              <field name="check"/>
+            </xpath>
+            <xpath expr="//field[@name='date_invoice']" position="replace">
+              <field name="date_invoice"/>
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+              <button name="taxes_set" type="object" string="Set Taxes" class="oe_highlight" />
+            </xpath>
+
+        </field> 
+    </record>
+
+    <record id="vender_bc_form_view"   model="ir.ui.view"> 
+        <field name="name">vender_bc_form_view</field> 
+        <field name="model">account.invoice</field> 
+        <field name="inherit_id" ref="account.invoice_supplier_form"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='date_due']" position="after">
+              <field name="vender_ntn"/>
+              <field name="sales_reg_no"/>
+            </xpath>
+            <xpath expr="//field[@name='reference']" position="after">
+              <field name="payment_term"/>
+            </xpath>
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+              <field name="invoice_no"/>
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+              <button name="taxes_setttttt" type="object" string="Set Taxes Vender" class="oe_highlight" />
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="replace">
+              <field name="bcube_taxes_id" widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','purchase'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
+              <field name="bcube_amount_tax"/>
+            </xpath>
+
+            <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
+              <field name="amount_incl_tax"/>
+              <field name="check"/>
+            </xpath>
+
+        </field> 
+    </record>
+                        <!--*********************************************************************  -->
+                                            <!--  Customer Invoices Form End -->
+                        <!--*********************************************************************  -->
+
+
+    <record id="product_form_view"   model="ir.ui.view"> 
+        <field name="name">product_form_view</field> 
+        <field name="model">product.template</field> 
+        <field name="inherit_id" ref="product.product_template_only_form_view"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="naming_type" />
+                <field name="product_receipe" />
+                
+            </xpath>
+        </field> 
+    </record>
+
+
+    <record id="producted_form_view"   model="ir.ui.view"> 
+        <field name="name">producted_form_view</field> 
+        <field name="model">product.product</field> 
+        <field name="inherit_id" ref="product.product_normal_form_view"/> 
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="naming_type" />
+                <field name="product_receipe" />
+            </xpath>
+        </field> 
+    </record>
+
+
+    <record id="product_receipe_form_view" model="ir.ui.view">
+      <field name="name">product_receipe_form_view</field>
+      <field name="model">product.receipe</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+          <form string="Product Receipe">
+              <sheet>
+                  <group>
+                      <group>
+                          <field name="name"/>
+                          <field name="wastage"/>
+                      </group>
+
+                      <group>
+                        <field name="wpl"/>
+                      </group>
+                  </group>
+
+                  <field name="receipe_id" nolabel='1'>
+                    <tree editable="bottom">
+
+                        <field name="product"/>                                  
+                        <field name="ratio"/>
+
+                    </tree>
+                 </field>
+
+              </sheet>
+          </form>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_product_receipe">
+        <field name="name">Product Receipe</field>
+        <field name="res_model">product.receipe</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Product Receipe" id="product_receipe" parent="sales_team.menu_sales" action="action_product_receipe" sequence="10"/>
+
+    <record id="receipe_tree_types" model="ir.ui.view"> 
+        <field name="name">receipe_tree_types</field> 
+        <field name="model">product.receipe</field> 
+        <field name="type">tree</field> 
+        <field name="arch" type="xml"> 
+            <tree>
+     
+                <field name="name"/>
+
+            </tree> 
+        </field> 
+    
+    </record>
+    
+<!--   <record id="product_product_extension" model="ir.ui.view">
+    <field name="name">product_product_extension</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_normal_form_view"/>
+    <field name="type">form</field>
+    <field name="arch" type="xml">
+      <header>
+          <button name="update_names" string="Updadte Record Name" type="object"  class="btn-primary"/>
+      </header>
+      <xpath expr="//field[@name='attribute_value_ids']" position="after">
+              <field name="new_record_name"/>
+            </xpath>
+    </field>
+  </record> 
+ -->
+  </data>
+</odoo>

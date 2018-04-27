@@ -1,0 +1,75 @@
+<?xml version="1.0"?> 
+<odoo> 
+
+  <record id="view_form_161" model="ir.ui.view"> 
+      <field name="name">view_form_161</field> 
+      <field name="model">taxes.work</field> 
+      <field name="type">form</field> 
+        <field name="arch" type="xml">
+        <form>
+          <header>
+            <button name="generate_suppliers" string="Generate" type="object" class="oe_highlight"/>
+            <button name="xl_report" string="XL Report" type="object" class="oe_highlight"/>
+            <!-- <button name="run_q" string="Run Q" type="object" class="oe_highlight"/> -->
+          </header>
+          <sheet>
+            <group name="top">
+                <group name="left">
+
+                  <field name="date_from"/>
+
+                </group>
+                <group name="right">
+
+                  <field name="date_to"/>
+  
+                </group>
+            </group>
+          
+
+
+              <field name="sum_id" nolabel='1'>
+                <tree editable="bottom">
+                  
+                  <field name="suppliers"/>
+                  <field name="open_bal"/>
+                  <field name="purchases"/>
+                  <field name="payment"/>
+                  <field name="tax_appl"/>
+                  <field name="tax_dedt"/>
+                  <field name="tax_paid"/>
+                  <field name="close_bal"/>
+
+                </tree>
+              </field>
+            </sheet>
+        </form> 
+      </field> 
+  </record>
+
+
+  <record id="view_tree_161" model="ir.ui.view"> 
+      <field name="name">view_tree_161</field> 
+      <field name="model">taxes.work</field> 
+      <field name="type">tree</field> 
+      <field name="arch" type="xml"> 
+      <tree> 
+        <field name="date_from"/>
+        <field name="date_to"/>
+      </tree> 
+      </field> 
+    </record>
+
+
+
+  <act_window id="action_tax_work" 
+  name="Tax" 
+  res_model="taxes.work" 
+  view_mode="tree,form" />
+
+  <menuitem id="menu_tax_work" name="161 Working" parent="account.menu_finance_receivables" action="action_tax_work" sequence="9"/>
+
+
+
+
+</odoo>

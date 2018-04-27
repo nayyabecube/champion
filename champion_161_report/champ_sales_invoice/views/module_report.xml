@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+
+    <data>   
+
+        <template id="module_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                <t t-foreach="docs" t-as="o">
+
+                        <div class="page">
+							<style>
+							    .report-container {
+								    width: 1000px;
+									margin: 0px auto;
+									}
+									
+								h1 {
+									width: 100;
+									text-align: center;
+									text-decoration: underline;
+									font-style: italic;
+									
+								}
+								
+								.left {
+									width: 70%;
+									float: left;
+									margin-top: 40px;
+								}
+								
+								.left .salex {
+									border: 1px solid;
+									font-weight: bold;
+									padding: 3px;
+									font-size: 25px;
+								}
+								
+								.right {
+									width: 30%;
+									float: left;
+									margin-top: 40px;
+								}
+								
+								.right .ori {
+									border: 1px solid;
+									font-weight: bold;
+									padding: 4px;
+									font-size: 20px;
+									float: left;
+									
+								}
+								
+								.sri {
+									width: 33%;
+									float: left;
+									margin-top: 30px;
+								}
+								
+								.sri .solid {
+									width: 25%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.sri .liquid {
+									width: 70%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.date {
+									width: 33%;
+									float: left;
+									margin-top: 30px;
+								}
+								
+								.date .solid {
+									width: 16%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.date .liquid {
+									width: 75%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.supp {
+									width: 33%;
+									float: left;
+									margin-top: 30px;
+								}
+								
+								.supp .solid {
+									width: 39%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.supp .liquid {
+									width: 60%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.suppl {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.suppl .solid {
+									width: 25%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.suppl .liquid {
+									width: 75%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.buyyer {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.buyyer .solid {
+									width: 22%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.buyyer .liquid {
+									width: 78%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+									
+								.add {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.add .solid {
+									width: 14%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.add .liquid {
+									width: 86%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+									
+								.addrs {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.addrs .solid {
+									width: 14%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.addrs .liquid {
+									width: 86%;
+									float: left;
+									text-decoration: underline;
+								}
+
+								.addrs .liquid span {
+									text-decoration: underline;
+								}
+								
+									
+								.tell {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.tell .solid {
+									width: 22%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.tell .liquid {
+									width: 78%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+									
+								.tells {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.tells .solid {
+									width: 22%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.tells .liquid {
+									width: 78%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+									
+								.tax {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.tax .solid {
+									width: 25%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.tax .liquid {
+									width: 75%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.taxs {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.taxs .solid {
+									width: 25%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.taxs .liquid {
+									width: 75%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.st {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.st .solid {
+									width: 29%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.st .liquid {
+									width: 71%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.str {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.str .solid {
+									width: 29%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.str .liquid {
+									width: 71%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.term {
+									width: 100%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.term .solid {
+									width: 11%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.term .liquid {
+									width: 89%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								table {
+									border: 1px solid #000;
+									margin: 10px 0px 0px;
+									width: 100%;
+									float: left;
+									border-spacing: 0px;
+									}
+								table tr th,
+								table tr td {
+									border-right: 1px solid #000;
+									text-align: center;
+								}
+								table tr th {
+									padding: 10px 0px;
+									
+								}
+
+								table tr td {
+								
+									padding: 5px;
+									
+								}
+
+								tr.bottom th {
+									border-bottom: 1px solid #000;
+									
+								}
+
+								tr.upper td {
+									border-top: 1px solid #000;
+									
+								}
+
+								table tr td.lower {
+									border-bottom: 1px solid #000;
+								}
+
+								tr.noborder td {
+									border-bottom: 0;
+								}
+
+								tr.bot_border td {
+									border-bottom: 1px solid #000;
+								}
+
+								tr.upper_bodr td {
+									border-top: 1px solid #000;
+								}
+
+								table tr td.upper {
+									border-top: 1px solid #000;
+								}
+
+
+								}
+								table tr td {
+									border-top: 1px solid #000;
+									padding: 5px 0px;
+								}
+
+								table tr th.space,
+								table tr td.space {
+									min-width: 130px;
+									max-width: 130px;
+									width: 130px;
+								}
+
+								table tr th.space1,
+								table tr td.space1 {
+									min-width: 70px;
+									max-width: 70px;
+									width: 70px;
+								}
+
+
+								
+								.sale {
+									width: 50%;
+									float: left;
+									margin-top: 35px;
+								}
+								
+								.sale .solid {
+									width: 18%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.sale .liquid {
+									width: 70%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.sign {
+									width: 50%;
+									float: left;
+									margin-top: 35px;
+								}
+								
+								.sign .solid {
+									width: 16%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.sign .liquid {
+									width: 70%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.valu {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.valu .solid {
+									width: 40%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.valu .liquid {
+									width: 60%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+								.name {
+									width: 50%;
+									float: left;
+									margin-top: 15px;
+								}
+								
+								.name .solid {
+									width: 34%;
+									float: left;
+									font-weight: bold;
+								}
+								
+								.name .liquid {
+									width: 65%;
+									float: left;
+									text-decoration: underline;
+								}
+								
+					
+							</style>
+	                
+	                
+							
+						    <div class="report-container">
+								
+								<div class="left">
+									<span class="salex">SALES TAX INVOICE</span>
+								</div>
+								
+								<div class="right">
+									<span class="ori">Original</span>
+									<span class="ori">Duplicate</span>
+									<span class="ori">Triplicate</span>
+								</div>
+								
+								<div class="sri">
+									<span class="solid">Serial No:</span>
+									<span class="liquid">_______</span>
+								</div>
+								
+								<div class="date">
+
+									<span class="solid">Date:</span>
+									<span class="liquid" t-esc="time.strftime('%d %B %Y',time.strptime(o.date_invoice,'%Y-%m-%d'))"></span>
+
+								</div>
+								
+								<div class="supp">
+									<span class="solid">Time Of Supply:</span>
+									<span class="liquid">_______</span>
+								</div>
+								
+								<div class="suppl">
+									<span class="solid">Supplier's Name:</span>
+									<span class="liquid">CHAMPION PAINT INDUSTRIES (PVT) LIMITED</span>
+								</div>
+								
+								<div class="buyyer">
+									<span class="solid">Buyer's Name:</span>
+									<span class="liquid" t-esc="o.partner_id.name"></span>
+								</div>
+								
+								<div class="add">
+									<span class="solid">Address:</span>
+									<span class="liquid">Hanjarwal Multan Road, Lahore</span>
+								</div>
+								
+								<div class="addrs">
+									<span class="solid">Address:</span>
+									<span class="liquid"><span t-esc="o.partner_id.street"></span>,<span t-esc="o.partner_id.street2"></span>,<span t-esc="o.partner_id.city"></span>,<span t-esc="o.partner_id.state_id.name"></span>,<span t-esc="o.partner_id.zip"></span>,<span t-esc="o.partner_id.country_id.name"></span></span>
+								</div>
+								
+								<div class="tell">
+									<span class="solid">Telephone No:</span>
+									<span class="liquid">35420260-1</span>
+								</div>
+								
+								<div class="tells">
+									<span class="solid">Telephone No:</span>
+									<span class="liquid" t-esc="o.partner_id.phone"></span>
+								</div>
+								
+								<div class="tax">
+									<span class="solid">National Tax No:</span>
+									<span class="liquid">1297729-2</span>
+								</div>
+								
+								<div class="taxs">
+									<span class="solid">National Tax No:</span>
+									<span class="liquid" t-esc="o.partner_id.cp_ntn"></span>
+								</div>
+								
+								<div class="st">
+									<span class="solid">ST Registration No:</span>
+									<span class="liquid">03-06-3208-013-82</span>
+								</div>
+								
+								<div class="str">
+									<span class="solid">ST Registration No:</span>
+									<span class="liquid" t-esc="o.partner_id.cp_st_reg"></span>
+								</div>
+								
+								<div class="term">
+									<span class="solid">Terms of Sales:</span>
+									<span class="liquid">_______</span>
+								</div>
+								
+								<table>
+									<tr class="bottom">
+										<th rowspan="2" class="space1">Qty</th>
+										<th rowspan="2" class="space1">Packing </th>
+										<th rowspan="2">Description</th>
+										<th rowspan="2" class="space1">Price</th>
+										<th rowspan="2" class="space1">Discount</th>
+										<th rowspan="2" class="space1">Net Price</th>
+										<th rowspan="2" class="space">Value Excluive of Sales Tax</th>
+										<th rowspan="2" class="space1">Rate of Sales Tax</th>
+										<th rowspan="2" class="space">Amount of Sales Tax</th>
+										<th rowspan="2" class="space">Value Including Sales Tax</th>
+									</tr>
+									
+									<tr>
+									</tr>
+									<t t-set= "product_id" t-value="0"/>
+									<t t-set= "end_total" t-value="0"/>
+									<t t-set= "total" t-value="0"/>
+									<t t-set= "tax_total" t-value="0"/>
+									<t t-set= "g_total" t-value="0"/>
+									<t t-set= "discount" t-value="0"/>
+									<t t-foreach="enteries" t-as="data">
+										<t t-set= "product_id" t-value="data.product_id.id"/>
+										
+										<tr>
+											<td class="space1">
+
+												<span t-esc="int(data.quantity)"></span>
+											</td>
+											<td>
+												<span t-esc="data.product_id.attribute_value_ids.name"></span>
+												
+											</td>
+
+											<td>
+												<span t-esc="data.name"></span>
+											</td>
+											<td class="space1">
+												<span t-esc="'{:0,}'.format(int(float(data.price_unit)))"></span>
+											</td>
+
+											<td><span t-esc="data.discount"></span>%</td>
+											<td t-esc="'{:0,}'.format(int(float(data.price_unit-data.price_unit*data.discount/100)))"></td>
+
+											<t t-set="net" t-value="0"/>
+											<t t-set="net" t-value="data.price_unit-data.price_unit*data.discount/100"/>
+
+											<td class="space">
+												<span t-esc="'{:0,}'.format(int(float(data.quantity*net)))"></span>
+												<t t-set= "total" t-value= "total+data.quantity*net"/>
+											</td>
+											<td>
+												<span t-esc="percent()"></span>%
+											</td>
+											
+											<td> 
+												<span t-esc="'{:0,}'.format(int(float(data.quantity*net*percent()/100)))"></span>
+												<t t-set= "tax_total" t-value="tax_total+data.quantity*net*percent()/100"/>
+											</td>
+											
+											<td> 
+												<span t-esc="'{:0,}'.format(int(float(data.quantity*net+data.quantity*net*percent()/100)))"></span>
+												<t t-set= "end_total" t-value="end_total+data.quantity*net+data.quantity*net*percent()/100"/>
+											</td>
+
+											<t t-set= "discount" t-value="data.discount"/>
+
+										</tr>
+
+									</t>
+									
+									<tr>
+										<td></td>
+										<td></td>
+										<td></td>
+										<td><b></b></td>
+										<td><b></b></td>
+										<td><b></b></td>
+										<td class="upper"><b><span t-esc="'{:0,}'.format(int(float(total)))"></span></b></td>
+										<td><b></b></td>
+										<td><b></b></td>
+										<td><b></b></td>
+									</tr>
+
+									<t t-set= "line_total" t-value="0"/>
+									
+									<t t-foreach="lists" t-as="line">
+
+										<tr>
+											<td></td>
+											<td></td>
+											<td><b>
+												<span t-esc="line.name"></span>
+											</b></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td><b></b></td>
+											<td><b></b></td>
+											<td><b></b></td>
+											<td>
+												<span t-esc="'{:0,}'.format(int(float(line.amount)))"></span>
+												<t t-set= "line_total" t-value="line_total+line.amount"/>
+											</td>
+											
+										</tr>
+
+
+									</t>
+
+									<t t-set= "grand_total" t-value="0"/>
+
+									<tr class="upper">
+										
+										<td colspan="6"><b>Total</b></td>						
+										<td>
+											<b><span t-esc="'{:0,}'.format(int(float(total)))"></span></b>
+										</td>
+										<td><b></b></td>
+										<td><b>
+											<span t-esc="'{:0,}'.format(int(float(tax_total)))"></span>
+										</b></td>
+										<td><b>
+											<t t-set= "grand_total" t-value="end_total+line_total"/>
+											<span t-esc="'{:0,}'.format(int(float(grand_total)))"></span>
+										</b></td>
+									</tr>
+
+
+								</table>
+
+								<div class="sale">
+									<span class="solid">Sales Tax:</span>
+									<span class="liquid" t-esc="'{:0,}'.format(int(float(tax_total)))"></span>
+								</div>
+								
+								<div class="sign">
+									<span class="solid">Signature:</span>
+									<span class="liquid">_____________________</span>
+								</div>
+								
+								<div class="valu">
+									<span class="solid">Value Inclusive of Sales Tax:</span>
+									<span class="liquid" t-esc="'{:0,}'.format(int(float(grand_total)))"></span>
+								</div>
+								
+								<div class="name">
+									<span class="solid">Name and Designation:</span>
+									<span class="liquid">_____________________</span>
+								</div>
+
+							</div>
+								
+                        </div><!--end of page-->
+                    </t>
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>
