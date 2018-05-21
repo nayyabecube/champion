@@ -3,6 +3,7 @@
 from odoo import models, fields, api
 from datetime import datetime, timedelta
 from odoo.exceptions import Warning, ValidationError
+import re
 
 # import sys
 # sys.setrecursionlimit(10000) 
@@ -134,26 +135,96 @@ class AccountInvoiceBcube(models.Model):
 
 	@api.multi
 	def taxes_set(self):
+		Receivable_list=[]
+		account_receivable=self.env['account.account'].search([('user_type_id.name','=','Receivable')])
+		for x in account_receivable:
+			if "Receivable" in x.name:
+				Receivable_list.append(x.id)
+
 		rec = self.env['account.invoice'].search([('type','=','out_invoice')])
 		for line in rec:
+			line.account_id=Receivable_list[0]
+
 			if line.tax_line_ids:
 				for x in line.tax_line_ids:
 					records = self.env['account.tax'].search([])
 					for y in records:
 						if y.name == x.name:
 							x.account_id = y.account_id.id
+							if x.name== "Sales Tax":
+								x.name = ""
+								x.name = "Sales Tax 17 %"
+
+
+
+	@api.multi
+	def uom_set(self):
+		rec =self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice')])
+		for x in rec:
+			x.uom = x.product_id.uom
+
+
+	@api.multi
+	def qty_set(self):
+		rec =self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice')])
+		for z in rec:
+			if z.product_id:
+				if z.product_id.attribute_value_ids:
+					for x in z.product_id.attribute_value_ids:
+						if x.attribute_id.name == "Size" or x.attribute_id.name == "size":
+							if re.findall(r"[-+]?\d*\.\d+|\d+", x.name):
+								n = float(re.findall("[-+]?\d*\.\d+|\d+", x.name)[0])
+								if z.uom == 'Ltr':
+									z.qty_lit = z.quantity * float(n)
+									if z.product_id.product_receipe.wpl:
+										z.qty_kg = z.qty_lit * float(z.product_id.product_receipe.wpl)
+								if z.uom == 'Ml':
+									n = n * 1000
+									z.qty_lit = z.quantity * float(n)
+									if z.product_id.product_receipe.wpl:
+										z.qty_kg = z.qty_lit * float(z.product_id.product_receipe.wpl)
+								if z.uom == 'Kg':
+									z.qty_kg = z.quantity * float(n)
+									if z.product_id.product_receipe.wpl:
+										z.qty_lit = z.qty_kg / float(z.product_id.product_receipe.wpl)
+								if z.uom == 'G':
+									n = n * 1000
+									z.qty_kg = z.quantity * float(n)
+									if z.product_id.product_receipe.wpl:
+										z.qty_lit = z.qty_kg / float(z.product_id.product_receipe.wpl)
+								if z.uom == 'Mg':
+									n = n * 1000000
+									z.qty_kg = z.quantity * float(n)
+									if z.product_id.product_receipe.wpl:
+										z.qty_lit = z.qty_kg / float(z.product_id.product_receipe.wpl)
+
+
+
 
 
 	@api.multi
 	def taxes_setttttt(self):
+		payable_list_id = []
+		account_receivable=self.env['account.account'].search([('user_type_id.name','=','Payable')])
+		for x in account_receivable:
+			if "Payable" in x.name:
+				payable_list_id.append(x.id)
 		rec = self.env['account.invoice'].search([('type','=','in_invoice')])
 		for line in rec:
-			if line.tax_line_ids:
-				for x in line.tax_line_ids:
-					records = self.env['account.tax'].search([])
-					for y in records:
-						if y.name == x.name:
-							x.account_id = y.account_id.id
+			line.account_id=payable_list_id[0]
+		# 	if line.tax_line_ids:
+		# 		print " 111111111111111111111111111111111111" 
+		# 		for x in line.tax_line_ids:
+		# 			records = self.env['account.tax'].search([])
+		# 			for y in records:
+		# 				if y.name == x.name:
+		# 					print "222222222222222222222222222222"
+		# 					print y.name
+		# 					print y.account_id.id
+		# 					x.account_id = y.account_id.id
+		# 					if x.name== "Sales Tax":
+		# 						x.name = ""
+		# 						x.name = "Sales Tax 17 %"
 
 
 
@@ -230,6 +301,12 @@ class ProductExtend(models.Model):
 					('raw_material', 'Raw Material'),
 					],string='Naming Type')
 	product_receipe = fields.Many2one('product.receipe',string="Product Receipe")
+	uom = fields.Selection([
+		('Ltr', 'Ltr'),
+		('Ml', 'Ml'),
+		('Kg', 'Kg'),
+		('G', 'G'),
+		('Mg','Mg'),], string='Uom')
 
 
 	@api.model
@@ -238,6 +315,7 @@ class ProductExtend(models.Model):
 		rec = self.env['product.product'].search([], order='id desc', limit=1)
 		rec.naming_type = new_record.naming_type
 		rec.product_receipe = new_record.product_receipe.id
+		rec.uom = new_record.uom
 		return new_record
 
 
@@ -249,6 +327,7 @@ class ProductExtend(models.Model):
 			for x in rec:
 				x.naming_type = self.naming_type
 				x.product_receipe = self.product_receipe.id
+				x.uom = self.uom
 		return res
 
 
@@ -261,6 +340,12 @@ class ProductExtended(models.Model):
 					('raw_material', 'Raw Material'),
 					],string='Naming Type')
 	product_receipe = fields.Many2one('product.receipe',string="Product Receipe")
+	uom = fields.Selection([
+		('Ltr', 'Ltr'),
+		('Ml', 'Ml'),
+		('Kg', 'Kg'),
+		('G', 'G'),
+		('Mg','Mg'),], string='Uom')
 
 
 class ProductReceipe(models.Model):

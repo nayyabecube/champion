@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <t t-foreach="count" t-as="o"> -->
+
+                    <div class="page">
+
+                        <style>
+
+                            .report-container {
+                                width: 1000px;
+                                margin: 0px auto;
+                                }
+                            .left {
+                                width: 38%;
+                                display: block;
+                                float: left;
+                                }
+                            .left img{
+                                width: 360px;
+                                display: block;
+                                }
+                            .mid {
+                                width: 26%;
+                                float: left;
+                                }
+                            .mid img{
+                                width: 120px;
+                                display: block;
+                                margin: 0px auto;
+                                }
+                            .right {
+                                width: 30%;
+                                display: block;
+                                float: left;
+                                text-align: left;
+                                margin-top: 100px;
+                                }
+                            .right .solid {
+                                width: 30%;
+                                float: left;
+                                font-weight: bold;
+                                margin-bottom: 10px;
+                                font-size: 20px;
+                                margin-left: 60px;
+                                }
+                            .right .liquid {
+                                width: 50%;
+                                float: left;
+                                text-decoration: underline;
+                                margin-bottom: 10px;
+                                font-size: 20px;
+                                }
+                            .head {
+                                width: 100%;
+                                text-align: center;
+                                text-decoration: underline;
+                                margin-top: 30px;
+                                float: left;
+                                }
+                            table {
+                                border: 1px solid #000;
+                                margin: 10px 0px 0px;
+                                width: 100%;
+                                float: left;
+                                border-spacing: 0px;
+                                }
+                            table tr th,
+                            table tr td {
+                                border-right: 1px solid #000;
+                                text-align: center;
+                            }
+                            table tr th {
+                                border-bottom: 1px solid #000;
+                                padding: 5px 0px;
+                                
+                            }
+                            table tr td {
+                                border-top: 1px solid #ddd;
+                                padding: 5px 0px;
+                                line-height: 1.42857143;
+                                vertical-align: top;
+                            }
+                            
+                            .sign {
+                                width: 100%;
+                                float: left;
+                                }
+                            .sign .solid {
+                                width: 100%;
+                                text-align: left;
+                                float: left;
+                                font-weight: bold;
+                                margin-top: 70px;
+                                margin-left: 70px;
+                                }
+
+                            .date {
+                                width: 50%;
+                                float: left;
+                                margin: 0px auto;
+                            }
+
+                            .header {
+                                display: none !important;
+                            }
+
+                            .footer {
+                                display: none !important;
+                            }
+
+                            .image {
+                                width: 20%;
+                                margin: 0px auto;
+                            }
+
+                            .image img{
+                                width: 100%;
+                                display: block;
+                            }
+                                        
+                        </style>
+
+                        <div class="report-container">
+
+                            <div class="image">
+                                <img src="/six_column_trail_balance/static/src/img/company.jpeg" alt="" />
+                            </div>
+            
+                            <div class="head">
+                                <h2>SIX COLUMN TRIAL BALANCE</h2>
+                            </div>
+
+                            <div style="float:left; width: 100%;">
+
+                                <p style="width: 48%; text-align: right; padding: 0px 50px;float:left">
+                                    <b><span class="solid">FROM: </span></b>
+                                    <span class="liquid" t-esc="date_from"></span>
+                                </p>
+
+                                <p style="width: 48%; text-align: left; padding: 0px 50px;float:left">
+                                    <b><span class="solid">TO: </span></b>
+                                    <span class="liquid" t-esc="date_to"></span>
+                                </p>
+
+                            </div>
+
+                            <!-- <div style="float:left; width: 100%;">
+
+                                <p style="width: 48%; text-align: center; margin: 0px auto">
+                                    <b><span class="solid">BRANCH: </span></b>
+                                    <span class="liquid" t-esc="branch.name"></span>
+                                </p>
+
+                            </div>
+ -->
+
+                            
+                            <table>
+                                <tr style="border-top:hidden">
+                                    <th style="border-right:hidden;border-left:hidden;text-align:left;padding-left:8px" rowspan="2">Code</th>
+                                    <th style="border-right:hidden;border-left:hidden;text-align:left;padding-left:8px" rowspan="2">Account</th>
+                                    <th style="border-right:hidden;border-left:hidden" colspan="3">Opening</th>
+                                    <th style="border-right:hidden;border-left:hidden" colspan="2">For The Period</th>
+                                    <th style="border-right:hidden;border-left:hidden" rowspan="2">Balance</th>
+                                </tr>
+
+                                <tr>
+                                    <th style="border-right:hidden;border-left:hidden;border-top:hidden">Debit</th>
+                                    <th style="border-right:hidden;border-left:hidden;border-top:hidden">Credit</th>
+                                    <th style="border-right:hidden;border-left:hidden;border-top:hidden">Total</th>
+                                    <th style="border-right:hidden;border-left:hidden;border-top:hidden">Debit</th>
+                                    <th style="border-right:hidden;border-left:hidden;border-top:hidden">Credit</th>
+                                </tr>
+
+
+                                <t t-set="total" t-value="0"/>
+                                <t t-set="opentotal" t-value="0"/>
+                                <t t-set="gopendtot" t-value="0"/>
+                                <t t-set="gopenctot" t-value="0"/>
+                                <t t-set="getctot" t-value="0"/>
+                                <t t-set="getdtot" t-value="0"/>
+                                <t t-set="grandtot" t-value="0"/>
+                                <t t-set="openbal" t-value="0"/>
+                                <t t-set="getbal" t-value="0"/>
+                                <t t-set="opendebit" t-value="0"/>
+                                <t t-set="opencredit" t-value="0"/>
+                                <t t-set="nowdebit" t-value="0"/>
+                                <t t-set="nowcredit" t-value="0"/>
+                                <t t-foreach="records" t-as="o">
+
+                                    <tr>
+
+                                        <td style="text-align:left;padding-left:8px;border-right:hidden;border-left:hidden">
+                                            <span t-esc="o.code"></span>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;border-right:hidden;border-left:hidden">
+                                            <span t-esc="o.name"></span>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;border-right:hidden;border-left:hidden">
+                                            <t t-set="opendebit" t-value="open_debit(o.id)"/>
+
+                                            <t t-if = "opendebit == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "opendebit != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(open_debit(o.id))))"></span>
+                                            </t>
+                                            
+                                            <t t-set="gopendtot" t-value="gopendtot+open_debit(o.id)"/>
+
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;border-right:hidden;border-left:hidden">
+
+                                            <t t-set="opencredit" t-value="open_cre(o.id)"/>
+
+                                            <t t-if = "opencredit == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "opencredit != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(open_cre(o.id))))"></span>
+                                            </t>
+
+                                            <t t-set="gopenctot" t-value="gopenctot+open_cre(o.id)"/>
+                                            <t t-set="openbal" t-value="open_debit(o.id)-open_cre(o.id)"/>
+                                        </td>
+                                        <td style="border-right:hidden;border-left:hidden">
+                                            <t t-if = "openbal == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "openbal != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(openbal)))"></span>
+                                            </t>
+
+                                            <t t-set="opentotal" t-value="opentotal+openbal"/>
+                                            
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;border-right:hidden;border-left:hidden">
+                                            <t t-set="nowdebit" t-value="get_debit(o.id)"/>
+
+                                            <t t-if = "nowdebit == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "nowdebit != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(get_debit(o.id))))"></span>
+                                            </t>
+
+                                            <t t-set="getdtot" t-value="getdtot+get_debit(o.id)"/>
+
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;;border-right:hidden;border-left:hidden">
+
+                                            <t t-set="nowcredit" t-value="get_cre(o.id)"/>
+
+                                            <t t-if = "nowcredit == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "nowcredit != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(get_cre(o.id))))"></span>
+                                            </t>
+
+                                            <t t-set="getctot" t-value="getctot+get_cre(o.id)"/>
+                                            <t t-set="getbal" t-value="get_debit(o.id)-get_cre(o.id)"/>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;;border-right:hidden;border-left:hidden">
+                                            <t t-set="netbal" t-value="openbal+getbal"/>
+
+                                            <t t-if = "netbal == 0">
+                                                <span>-</span>
+                                            </t>
+
+                                            <t t-if = "netbal != 0">
+                                                <span t-esc="'{:0,}'.format(int(float(netbal)))"></span>
+                                            </t>
+
+                                            <t t-set="grandtot" t-value="grandtot+netbal"/>
+                                        </td>
+
+                                    </tr>
+
+                                </t>
+
+
+                                    <tr>
+
+                                        <td colspan="2" style="font-weight:bold;;border-right:hidden;border-left:hidden">Total</td>
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(gopendtot)))"></span>
+                                        </td>
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(gopenctot)))"></span>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(opentotal)))"></span>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(getdtot)))"></span>
+                                        </td>
+
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(getctot)))"></span>
+                                        </td>
+                                        <td style="text-align:left;padding-left:8px;font-weight:bold;;border-right:hidden;border-left:hidden">
+                                            <span t-esc="'{:0,}'.format(int(float(grandtot)))"></span>
+                                        </td>
+
+                                    </tr>
+
+                                
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                    <!-- </t> -->
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

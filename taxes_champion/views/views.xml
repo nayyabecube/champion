@@ -45,14 +45,18 @@
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="replace">
               <field name="bcube_taxes_id"  widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','sale'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
               <field name="bcube_amount_tax"/>
-              <field name="check"/>
+              <!-- <field name="check"/> -->
             </xpath>
             <xpath expr="//field[@name='date_invoice']" position="replace">
               <field name="date_invoice"/>
             </xpath>
 
             <xpath expr="//button[@name='action_invoice_cancel']" position="after">
-              <button name="taxes_set" type="object" string="Set Taxes" class="oe_highlight" />
+              <button name="uom_set" type="object" string="Set Uom" class="oe_highlight" />
+            </xpath>
+
+            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+              <button name="qty_set" type="object" string="Set Qty" class="oe_highlight" />
             </xpath>
 
         </field> 
@@ -75,10 +79,10 @@
               <field name="invoice_no"/>
             </xpath>
 
-            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+<!--             <xpath expr="//button[@name='action_invoice_cancel']" position="after">
               <button name="taxes_setttttt" type="object" string="Set Taxes Vender" class="oe_highlight" />
             </xpath>
-
+ -->
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='invoice_line_tax_ids']" position="replace">
               <field name="bcube_taxes_id" widget="many2many_tags" context="{'type':parent.type}" domain="[('type_tax_use','=','purchase'),('company_id', '=', parent.company_id)]" options="{'no_create': True}"/>
               <field name="bcube_amount_tax"/>
@@ -86,7 +90,7 @@
 
             <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='price_subtotal']" position="after">
               <field name="amount_incl_tax"/>
-              <field name="check"/>
+              <!-- <field name="check"/> -->
             </xpath>
 
         </field> 
@@ -104,6 +108,7 @@
             <xpath expr="//field[@name='type']" position="after">
                 <field name="naming_type" />
                 <field name="product_receipe" />
+                <field name="uom" />
                 
             </xpath>
         </field> 
@@ -118,6 +123,7 @@
             <xpath expr="//field[@name='type']" position="after">
                 <field name="naming_type" />
                 <field name="product_receipe" />
+                <field name="uom" />
             </xpath>
         </field> 
     </record>

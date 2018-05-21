@@ -2,6 +2,7 @@ from odoo import models, fields, api
 import xlsxwriter
 from pprint import pprint
 import json
+import webbrowser
 
 
 class TaxWork(models.Model):
@@ -75,7 +76,7 @@ class TaxWork(models.Model):
 		
 	@api.multi
 	def xl_report(self):
-		with xlsxwriter.Workbook("/home/odoo/Desktop/161_Working_Xlsx_Report.xlsx") as workbook:
+		with xlsxwriter.Workbook("/home/odoo10/odoo-dev/projects/champion_original/161_working.xlsx") as workbook:
 			main_heading = workbook.add_format({
 				"bold": 1,
 				"align": 'center',
@@ -112,13 +113,20 @@ class TaxWork(models.Model):
 
 			for x in self.sum_id:
 				worksheet.write_string (row, col,x.suppliers,main_data)
-				worksheet.write_string (row, col+1,x.open_bal,main_data)
-				worksheet.write_string (row, col+2,x.purchases,main_data)
-				worksheet.write_string (row, col+3,x.payment,main_data)
-				worksheet.write_string (row, col+4,x.tax_appl,main_data)
-				worksheet.write_string (row, col+5,x.tax_dedt,main_data)
-				worksheet.write_string (row, col+6,x.tax_paid,main_data)
-				worksheet.write_string (row, col+7,x.close_bal,main_data)
+				if x.open_bal:
+					worksheet.write_string (row, col+1,x.open_bal,main_data)
+				if x.purchases:
+					worksheet.write_string (row, col+2,x.purchases,main_data)
+				if x.payment:
+					worksheet.write_string (row, col+3,x.payment,main_data)
+				if x.tax_appl:
+					worksheet.write_string (row, col+4,x.tax_appl,main_data)
+				if x.tax_dedt:
+					worksheet.write_string (row, col+5,x.tax_dedt,main_data)
+				if x.tax_paid:
+					worksheet.write_string (row, col+6,x.tax_paid,main_data)
+				if x.close_bal:
+					worksheet.write_string (row, col+7,x.close_bal,main_data)
 				row += 1
 				
 
@@ -171,6 +179,10 @@ class TaxWork(models.Model):
 									worksheet.write_string (in_row+3, in_col+3,str(credit_amount),main_data)
 									worksheet.write_string (in_row+3, in_col+4,str(bal),main_data)
 									in_row += 1
+
+
+		url = "/home/odoo10/odoo-dev/projects/champion_original/161_working.xlsx"
+		webbrowser.open(url)
 	# @api.multi
 	# def run_q(self):
 	# 	self._cr.execute("""\

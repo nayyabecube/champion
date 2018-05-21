@@ -595,27 +595,34 @@
 												<span t-esc="'{:0,}'.format(float(data.price_unit))"></span>
 											</td>
 
-											<td><span t-esc="data.discount"></span>%</td>
-											<td t-esc="'{:0,}'.format(float(data.price_unit-data.price_unit*data.discount/100))"></td>
+											<td><span t-esc="'{:0,}'.format(int(float(data.discount)))"></span>%</td>
+
+											<td t-esc="'{0:,.2f}'.format(float(data.price_unit-data.price_unit*data.discount/100))"></td>
+
+
 
 											<t t-set="net" t-value="0"/>
 											<t t-set="net" t-value="data.price_unit-data.price_unit*data.discount/100"/>
 
 											<td class="space">
-												<span t-esc="'{:0,}'.format(float(data.quantity*net))"></span>
+												<span t-esc="'{0:,.2f}'.format(float(data.quantity*net))"></span>
+
 												<t t-set= "total" t-value= "total+data.quantity*net"/>
 											</td>
 											<td>
-												<span t-esc="percent(product_id)"></span>%
+												<span t-esc="'{:0,}'.format(int(float(percent(product_id))))"></span>%
+										
 											</td>
 											
 											<td> 
-												<span t-esc="'{:0,}'.format(float(data.quantity*net*percent(product_id)/100))"></span>
+												<span t-esc="'{0:,.2f}'.format(float(data.quantity*net*percent(product_id)/100))"></span>
+
 												<t t-set= "tax_total" t-value="tax_total+data.quantity*net*percent(product_id)/100"/>
 											</td>
 											
 											<td> 
-												<span t-esc="'{:0,}'.format(float(data.quantity*net+data.quantity*net*percent(product_id)/100))"></span>
+												<span t-esc="'{0:,.2f}'.format(float(data.quantity*net+data.quantity*net*percent(product_id)/100))"></span>
+
 												<t t-set= "end_total" t-value="end_total+data.quantity*net+data.quantity*net*percent(product_id)/100"/>
 											</td>
 
@@ -625,7 +632,7 @@
 
 									</t>
 									
-									<tr>
+									<!-- <tr>
 										<td></td>
 										<td></td>
 										<td></td>
@@ -636,7 +643,7 @@
 										<td><b></b></td>
 										<td><b></b></td>
 										<td><b></b></td>
-									</tr>
+									</tr> -->
 
 									<t t-set= "line_total" t-value="0"/>
 									

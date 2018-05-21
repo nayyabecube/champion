@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_finished_goods_stock" 
+            model="daily.production"
+            name="finished_goods_stock.customer_report"
+            file="finished_goods_stock.customer_report"
+            report_type="qweb-html"
+            string=" "/>
+            
+
+        <record id="finished_goods_stock_wizard_form_view" model="ir.ui.view">
+            <field name="name">finished_goods_stock_wizard_form_view</field>
+            <field name="model">finished.goods</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <group name="group_top">
+                        <group name="group_left"> 
+
+                            <field name="date"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="prev" invisible="1"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(report_for_finished_goods_stock)d" type="action" string="Print" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="finished_report_wizard" model="ir.actions.act_window">
+            <field name="name">Finished Goods Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">finished.goods</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="finished_goods_stock_wizard_form_view"/>
+            <field name="target">new</field> 
+        </record>
+
+
+        <menuitem name="Finished Goods Stock" id="finished_item" parent="account.menu_finance_payables" action="finished_report_wizard" sequence="13"/>       
+
+    </data>
+</openerp>
+
+

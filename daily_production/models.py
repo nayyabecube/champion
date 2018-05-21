@@ -10,14 +10,19 @@ class DailyForm(models.Model):
 	daily_id = fields.One2many('daily.production.tree','daily_tree')
 	daily_consump = fields.One2many('daily.consumption.tree','daily_tree_consume',readonly=True)
 
-	
+	# @api.multi
+	# def orignal_qty(self):
+	# 	record=self.env['daily.production'].search([])
+	# 	for x in record:
+	# 		for z in x.daily_id:
+	# 			z.qty=z.qty_kg
 	@api.multi
 	def get_data(self):
 		self.daily_consump.unlink()
 		records = []
 		for x in self.daily_id:
 			for z in self.daily_consump:
-				records.append(z.product.id) 
+				records.append(z.product.id)
 			for y in x.product.product_receipe.receipe_id:
 				if y.product:
 					value = y.ratio * x.qty_lit
@@ -75,6 +80,14 @@ class DailyForm(models.Model):
 										y.qty_lit = y.qty_kg / float(y.product.product_receipe.wpl)
 
 
+	@api.multi
+	def get_uom(self):
+		rec = self.env['daily.production.tree'].search([])
+		for y in rec:
+			if y.product:
+				y.product.uom = y.uom
+
+
 
 
 class DailyFormTree(models.Model):
@@ -98,8 +111,9 @@ class DailyFormTree(models.Model):
 	def get_date(self):
 		if self.product:
 			self.date = self.daily_tree.date
+			self.uom = self.product.uom
 
-	@api.onchange('qty')
+	@api.onchange('qty','uom')
 	def get_qty(self):
 		new = 0
 		if self.product:
@@ -136,6 +150,23 @@ class DailyFormTree(models.Model):
 
 
 
+	# @api.onchange('qty_lit','qty_kg')
+	# def get_value(self):
+	# 	if self.product:
+	# 		print "22xxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+	# 		if self.product.product_receipe.wpl:
+	# 			print "zzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+	# 			if self.uom == "Ltr" or "Ml":
+	# 				self.qty_kg = self.qty_lit / self.product.product_receipe.wpl
+	# 			if self.uom == "Kg" or "G" or "Mg":
+	# 				print "112122232345fdfd"
+	# 				print self.qty_kg
+	# 				print float(self.product.product_receipe.wpl)
+	# 				self.qty_lit = self.qty_kg * float(self.product.product_receipe.wpl)
+	# 				print self.qty_lit
+
+
+
 class DailyConsumeTree(models.Model):
 	_name = 'daily.consumption.tree'
 
@@ -161,7 +192,7 @@ class AccountInvoice(models.Model):
 
 
 
-	@api.onchange('uom')
+	@api.onchange('uom','quantity')
 	def get_qty(self):
 		new = 0
 		if self.product_id:
@@ -193,6 +224,14 @@ class AccountInvoice(models.Model):
 								self.qty_kg = self.quantity * float(n)
 								if self.product_id.product_receipe.wpl:
 									self.qty_lit = self.qty_kg / float(self.product_id.product_receipe.wpl)
+
+
+
+
+	@api.onchange('product_id')
+	def getuom(self):
+		if self.product_id:
+			self.uom = self.product_id.uom
 
 
 

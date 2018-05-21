@@ -13,6 +13,7 @@
                             <header>
                                 <button name="get_data" type="object" string="Generate" class="oe_highlight"/>
                                 <button name="get_values" type="object" string="Get Values" class="oe_highlight"/>
+                                <button name="get_uom" type="object" string="Get Uom" class="oe_highlight"/>
                             </header>
                             <sheet>
                                 <group>
@@ -123,11 +124,15 @@
                     <field name="inherit_id" ref="account.invoice_form"/> 
                     <field name="arch" type="xml">
 
-                        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
-                          <field name="uom"/>
+                        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">
                           <field name="qty_kg"/>
                           <field name="qty_lit"/>
                         </xpath>
+
+                        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="before">
+                          <field name="uom"/>
+                        </xpath>
+
 
                     </field> 
                 </record>

@@ -118,35 +118,35 @@
                                             <span>Paints,Varnishes &amp; Thinner</span>
                                         </td>
 
-                                        <td>Litres &amp; Kgs</td>
+                                        <td>Litre &amp; Kg</td>
 
                                         <td>
-                                        <p><span class="solid">litters</span>
+                                        <p><span class="solid">Liter</span>
                                         <span class="liquid">55000</span></p>
-                                        <p><span class="solid">Kgs</span>
+                                        <p><span class="solid">Kg</span>
                                         <span class="liquid">13000</span></p>
                                         </td>
 
                                         <td>
-                                        <p><span class="solid">litters</span>
+                                        <p><span class="solid">Liter</span>
                                         <span t-esc="'{0:,.2f}'.format(float(get_open_lit()))"></span></p>
-                                        <p><span class="solid">Kgs</span>
+                                        <p><span class="solid">Kg</span>
                                         <span t-esc="'{0:,.2f}'.format(float(get_open_kg()))"></span></p>
                                         </td>
 
                                         <td>
-                                        <p><span class="solid">litters</span>
+                                        <p><span class="solid">Liter</span>
                                         <span t-esc="'{0:,.2f}'.format(float(get_lit()))"></span></p>
-                                        <p><span class="solid">Kgs</span>
+                                        <p><span class="solid">Kg</span>
                                         <span t-esc="'{0:,.2f}'.format(float(get_kg()))"></span></p>
                                         <t t-set="open_mt" t-value="get_lit()+get_kg()"/>
 
                                         </td>
                                         
                                         <td>
-                                        <p><span class="solid">litters</span>
+                                        <p><span class="solid">Liter</span>
                                         <span t-esc="'{0:,.2f}'.format(float(inv_lit()))"></span></p>
-                                        <p><span class="solid">Kgs</span>
+                                        <p><span class="solid">Kg</span>
                                         <span t-esc="'{0:,.2f}'.format(float(inv_kg()))"></span></p>
                                         </td>
 
@@ -155,11 +155,11 @@
                                         </td>
 
                                         <td>
-                                        <p><span class="solid">litters</span>
+                                        <p><span class="solid">Liter</span>
                                         <t t-set="close_lit" t-value="get_open_lit()+get_lit()-inv_lit()"/>
                                         <t t-set="close_kg" t-value="get_open_kg()+get_kg()-inv_kg()"/>
                                         <span t-esc="'{0:,.2f}'.format(float(close_lit))"></span></p>
-                                        <p><span class="solid">Kgs</span>
+                                        <p><span class="solid">Kg</span>
                                         <span t-esc="'{0:,.2f}'.format(float(close_kg))"></span></p>
                                         </td>
 
@@ -215,7 +215,7 @@
                                             MT
                                         </td>
                                         <td>
-                                            <span t-esc="'{0:,.2f}'.format(float(inv_kg()/1000))"></span>
+                                            <span t-esc="'{0:,.2f}'.format(float(inv_matric_ton()/1000))"></span>
                                             MT
                                         </td>
                                         <td>

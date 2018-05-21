@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <t t-foreach="count" t-as="o"> -->
+
+                    <div class="page">
+
+                        <style>
+        
+                            h2 {
+                                text-align: left;
+                            }
+                            .main-data {
+                                width: 100%;
+                            }
+                            .center-data {
+                                width: 1000px;
+                                margin: 0px auto;
+                            }
+                            .application {
+                                width: 100%;
+                                float: right;
+                                text-align: left;
+                            }
+                            .solid {
+                                font-weight: bold;
+                                width: 5%;
+                            }
+                            table, td, th {
+                                border:h;
+                                border-collapse: collapse;
+                                margin-top: 10px;
+                                text-align: center;
+                                padding: 12px;
+                                font-size: 15px;
+                            }
+                            .clearfloat {
+                                clear: both;
+                                float: none;
+                            }
+                            .liquid {
+                                width: 60%;
+                                border-bottom: 1px dashed;
+                                display: inline-block;
+                                margin-right: 10px;
+                            }
+                            .border {
+                                border: 1px solid;
+                            }
+
+                        </style>
+
+                        <div class="main-data">
+
+                            <div class="center-data">
+                                <h2>Detail of Finished Goods Stock</h2>
+                                <table width="100%">
+                                    <tr>
+                                        <th></th>
+                                        <th colspan="2">
+                                            <span t-esc="time.strftime('%d-%m-%Y',time.strptime(prev,'%Y-%m-%d'))"></span>
+                                        </th>
+                                        <th></th>
+                                        <th colspan="2">
+                                            <span t-esc="time.strftime('%d-%m-%Y',time.strptime(date,'%Y-%m-%d'))"></span>
+                                        </th>
+                                        <th><u>Diff Litre</u></th>
+                                    </tr>
+                                    <tr>
+                                        <th></th>
+                                        <th><u>Kg</u></th>
+                                        <th><u>Litre</u></th>
+                                        <th>-</th>
+                                        <th><u>Kg</u></th>
+                                        <th><u>Litre</u></th>
+                                        <th></th>
+                                    </tr>
+
+                                <t t-set="curr_lit" t-value="0"/>
+                                <t t-set="curr_kg" t-value="0"/>
+                                <t t-set="lst_kg" t-value="0"/>
+                                <t t-set="lst_lit" t-value="0"/>
+                                <t t-set="diff_lit" t-value="0"/>
+                                <t t-foreach="parent_category" t-as="data">
+
+                                    <tr>
+                                        <td><b>
+                                            <span t-esc="data.name"></span>
+                                        </b></td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(last_kg(data.id)))"></span>
+                                            <t t-set="lst_kg" t-value="lst_kg+last_kg(data.id)"/>
+                                        </td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(last_lit(data.id)))"></span>
+                                            <t t-set="lst_lit" t-value="lst_lit+last_lit(data.id)"/>
+                                        </td>
+                                        <td></td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(month_kg(data.id)))"></span>
+                                            <t t-set="curr_kg" t-value="curr_kg+month_kg(data.id)"/>
+                                        </td>
+                                        <td class="border">
+                                            <span t-esc="'{0:,.2f}'.format(float(month_lit(data.id)))"></span>
+                                            <t t-set="curr_lit" t-value="curr_lit+month_lit(data.id)"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'{0:,.2f}'.format(float(month_lit(data.id)-last_lit(data.id)))"></span>
+                                            <t t-set="diff_lit" t-value="diff_lit+month_lit(data.id)-last_lit(data.id)"/>
+                                        </td>
+                                    </tr>
+
+                                </t>
+
+                                    <tr>
+                                        <td></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(lst_kg))"></span>
+                                        </b></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(lst_lit))"></span>
+                                        </b></td>
+                                        <td></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(curr_kg))"></span>
+                                        </b></td>
+                                        <td class="border"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(curr_lit))"></span>
+                                        </b></td>
+                                        <td style="border-top:1px solid;border-bottom:1px solid"><b>
+                                            <span t-esc="'{0:,.2f}'.format(float(diff_lit))"></span>
+                                        </b></td>
+                                    </tr>
+
+                                </table>
+                                <hr width="100%" style="border-top:1px solid"></hr>
+                                <table width="100%">
+                                    <t t-set="sub" t-value="0"/>
+                                    <t t-set="total" t-value="0"/>
+                                    <t t-foreach="category" t-as="o">
+
+                                        <t t-esc="get_size(o.id)"/>
+                                        <tr>
+                                            <td><b>
+                                                <span t-esc="o.name"></span>
+                                            </b></td>
+                                            <td><b>Litres</b></td>
+                                            <td><b></b></td>
+                                            <td><b></b></td>
+                                        </tr>
+
+                                        <t t-set="fun_val" t-value="0"/>
+                                        <t t-foreach="sizes" t-as="line">
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <t t-set="fun_val" t-value="get_value(o.id,line)"/>
+                                                <td><span t-esc="'{0:,.2f}'.format(float(fun_val))"></span>*
+                                                    <span t-esc="line"></span>
+                                                <t t-set="sub" t-value="fun_val*float(line)"/>
+                                                </td>
+
+                                                <td>
+                                                    <span t-esc="'{0:,.2f}'.format(float(sub))"></span>
+                                                    <t t-set="total" t-value="total+sub"/>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td style="border-top: 1px solid
+                                            ;border-bottom: 1px solid"><b>
+                                                <span t-esc="'{0:,.2f}'.format(float(total))"></span>
+                                                <t t-set="total" t-value="0"/>
+                                            </b></td>
+                                        </tr>
+                                        <tr style="border-bottom: 1px solid">
+                                            <td><b></b></td>
+                                            <td><b></b></td>
+                                            <td><b></b></td>
+                                            <td><b></b></td>
+                                        </tr>
+
+
+                                    </t>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <!-- </t> -->
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

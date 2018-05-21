@@ -46,14 +46,15 @@ class SampleDevelopmentReport(models.AbstractModel):
         date_to = record_wizard.date_to
 
 
-        invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to),('invoice_id.state','=','draft')])
+        invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','>=',record_wizard.date_from),('invoice_id.date_invoice','<=',record_wizard.date_to)])
 
         records = self.env['daily.production.tree'].search([('date','>=',record_wizard.date_from),('date','<=',record_wizard.date_to)])
 
         open_records = self.env['daily.production.tree'].search([('date','<',record_wizard.date_from)])
 
-        open_invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','<',record_wizard.date_from),('invoice_id.state','=','draft')])
+        open_invoices = self.env['account.invoice.line'].search([('invoice_id.type','=','out_invoice'),('invoice_id.date_invoice','<',record_wizard.date_from)])
 
+        enteries = self.env['daily.production'].search([('date','>=',record_wizard.date_from),('date','<=',record_wizard.date_to)])
 
         def get_kg():
             value = 0
@@ -65,8 +66,9 @@ class SampleDevelopmentReport(models.AbstractModel):
 
         def get_mt():
             value = 0
-            for x in records:
-                value = value + x.qty_kg
+            for x in enteries:
+                for y in x.daily_id:
+                    value = value + y.qty_kg
 
             return value
 
@@ -90,15 +92,16 @@ class SampleDevelopmentReport(models.AbstractModel):
             value = 0
             new = 0
             for x in invoices:
-                if x.product_id.attribute_value_ids:
-                    for y in x.product_id.attribute_value_ids:
-                        if y.attribute_id.name == "Size" or y.attribute_id.name == "size":
-                            if re.findall(r"[-+]?\d*\.\d+|\d+", y.name):
-                                n = float(re.findall("[-+]?\d*\.\d+|\d+", y.name)[0])
-                                qty_l = n * x.quantity
-                                if x.product_id.product_receipe:
-                                    qty_k = qty_l * float(x.product_id.product_receipe.wpl)
-                                    new = new + qty_k
+                if x.uom == 'Kg':
+                    if x.product_id.attribute_value_ids:
+                        for y in x.product_id.attribute_value_ids:
+                            if y.attribute_id.name == "Size" or y.attribute_id.name == "size":
+                                if re.findall(r"[-+]?\d*\.\d+|\d+", y.name):
+                                    n = float(re.findall("[-+]?\d*\.\d+|\d+", y.name)[0])
+                                    qty_l = n * x.quantity
+                                    if x.product_id.product_receipe:
+                                        qty_k = qty_l / float(x.product_id.product_receipe.wpl)
+                                        new = new + qty_k
             value = new
 
             return value
@@ -106,13 +109,14 @@ class SampleDevelopmentReport(models.AbstractModel):
         def inv_lit():
             value = 0
             for x in invoices:
-                if x.product_id.attribute_value_ids:
-                    for y in x.product_id.attribute_value_ids:
-                        if y.attribute_id.name == "Size" or y.attribute_id.name == "size":
-                            if re.findall(r"[-+]?\d*\.\d+|\d+", y.name):
-                                n = float(re.findall("[-+]?\d*\.\d+|\d+", y.name)[0])
-                                new = n * x.quantity
-                                value = value + new
+                if x.uom == 'Ltr':
+                    if x.product_id.attribute_value_ids:
+                        for y in x.product_id.attribute_value_ids:
+                            if y.attribute_id.name == "Size" or y.attribute_id.name == "size":
+                                if re.findall(r"[-+]?\d*\.\d+|\d+", y.name):
+                                    n = float(re.findall("[-+]?\d*\.\d+|\d+", y.name)[0])
+                                    new = n * x.quantity
+                                    value = value + new
 
             return value
 
@@ -164,6 +168,15 @@ class SampleDevelopmentReport(models.AbstractModel):
             return value
 
 
+        def inv_matric_ton():
+            value = 0
+            for x in invoices:
+                value = value + x.qty_kg
+
+
+            return value
+
+
         
         docargs = {
         
@@ -181,6 +194,7 @@ class SampleDevelopmentReport(models.AbstractModel):
             'get_open_lit':get_open_lit,
             'get_open_kg':get_open_kg,
             'date_from':date_from,
+            'inv_matric_ton':inv_matric_ton,
 
             }
 

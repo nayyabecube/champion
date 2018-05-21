@@ -201,7 +201,7 @@ class RegionWiseReport(models.AbstractModel):
 		# 			raise
 		# dir_path = os.path.dirname(os.path.realpath(__file__))
 
-		workbook = xlsxwriter.Workbook("/home/odoo/odoo10/custom-addons/champion/sales_annexure_champion/static/src/customer_invoices.xlsx")
+		workbook = xlsxwriter.Workbook("/home/odoo10/odoo-dev/projects/champion_original/sales_annexure_champion/static/src/customer_invoices.xlsx")
 		worksheet = workbook.add_worksheet()
 
 		main_heading = workbook.add_format({
@@ -305,7 +305,7 @@ class RegionWiseReport(models.AbstractModel):
 		# if  not "%s/static/src/customer_invoices.xlxs" % dir_path[:-8]:
 		#     os.system("mv  customer_invoices.xlxs %s/static/src/customer_invoices.xlxs" % dir_path[:-8])
 
-		url = "/home/odoo/odoo10/custom-addons/champion/sales_annexure_champion/static/src/customer_invoices.xlsx"
+		url = "/home/odoo10/odoo-dev/projects/champion_original/sales_annexure_champion/static/src/customer_invoices.xlsx"
 		# print "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
 		webbrowser.open(url)
 		# print "mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
