@@ -235,6 +235,13 @@ class AccountInvoice(models.Model):
 
 
 
+class Cateory_Extend(models.Model):
+	_inherit  = 'product.category'
+
+	finish_good = fields.Boolean()
+
+
+
 
 
 

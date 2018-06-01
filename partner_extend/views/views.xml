@@ -8,7 +8,7 @@
             <xpath expr="//field[@name='category_id']" position="after">
               <field name="tax_payment" widget="many2many_tags" domain="[('with_holding', '=', True)]"/>
               <field name="buyer_type" />
-              <button name="create_invoice" type="object" string="Set Acoount" class="oe_highlight"/>
+              <!-- <button name="create_invoice" type="object" string="Set Acoount" class="oe_highlight"/> -->
 
             </xpath>
             

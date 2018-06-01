@@ -128,10 +128,10 @@
                         </style>
 
                         <div class="report-container">
-
+<!-- 
                             <div class="image">
                                 <img src="/six_column_trail_balance/static/src/img/company.jpeg" alt="" />
-                            </div>
+                            </div> -->
             
                             <div class="head">
                                 <h2>SIX COLUMN TRIAL BALANCE</h2>

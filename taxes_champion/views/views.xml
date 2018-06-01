@@ -47,16 +47,30 @@
               <field name="bcube_amount_tax"/>
               <!-- <field name="check"/> -->
             </xpath>
-            <xpath expr="//field[@name='date_invoice']" position="replace">
-              <field name="date_invoice"/>
+
+            <xpath expr="//field[@name='move_id']" position="after">
+              <field name="discount_id"/>
             </xpath>
 
-            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+<!--             <xpath expr="//button[@name='action_invoice_cancel']" position="after">
               <button name="uom_set" type="object" string="Set Uom" class="oe_highlight" />
             </xpath>
 
-            <xpath expr="//button[@name='action_invoice_cancel']" position="after">
-              <button name="qty_set" type="object" string="Set Qty" class="oe_highlight" />
+ -->
+<!--             <xpath expr="//button[@name='action_invoice_cancel']" position="after">
+              <button name="qty_set" type="object" string="Set Qty" class="oe_highlight" /> -->
+            <!-- </xpath> -->
+            <!-- <xpath expr="//button[@name='128']" position="replace">
+              
+            </xpath>  -->           
+            <xpath expr="//button[@name='191']" position="replace">
+              
+            </xpath>
+            <xpath expr="//button[@name='invoice_print']" position="replace">
+              
+            </xpath>
+            <xpath expr="//button[@name='action_invoice_sent']" position="replace">
+              
             </xpath>
 
         </field> 
@@ -109,6 +123,7 @@
                 <field name="naming_type" />
                 <field name="product_receipe" />
                 <field name="uom" />
+                <field name="product_pack" domain="[('categ_id.name','=','Packing Material')]"/>
                 
             </xpath>
         </field> 
@@ -124,6 +139,9 @@
                 <field name="naming_type" />
                 <field name="product_receipe" />
                 <field name="uom" />
+                <field name="product_pack" domain="[('categ_id.name','=','Packing Material')]"/>
+                <!-- <button name="get_type" type="object" string="type" class="oe_highlight" /> -->
+
             </xpath>
         </field> 
     </record>

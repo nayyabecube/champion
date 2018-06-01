@@ -53,8 +53,7 @@ class epayWizard(models.Model):
 
 		if active_class:
 
-			with xlsxwriter.Workbook("/home/odoo10/odoo-dev/projects/champion_original/ePayment_xlsx_Report.xlsx") as workbook:
-
+			with xlsxwriter.Workbook("/home/odoo/Desktop/ePayment_xlsx_Report.xlsx") as workbook:
 						
 				main_heading = workbook.add_format({
 					"bold": 1,
@@ -163,7 +162,7 @@ class ChallanWithold(models.Model):
 
 	@api.multi
 	def generate_report(self):
-		with xlsxwriter.Workbook("/home/odoo10/odoo-dev/projects/champion_original/challan.xlsx") as workbook:
+		with xlsxwriter.Workbook("/home/odoo/odoo10/custom_addons/champion/customer_invoices.xlsx") as workbook:
 			main_heading = workbook.add_format({
 				"bold": 1,
 				"align": 'center',
@@ -216,7 +215,7 @@ class ChallanWithold(models.Model):
 				worksheet.write_string (row, col+9,str(x.tax),main_data)
 				row += 1
 
-		url = "/home/odoo10/odoo-dev/projects/champion_original/challan.xlsx"
+		url = "/home/odoo/odoo10/custom_addons/champion/customer_invoices.xlsx"
 		webbrowser.open(url)
 
 				

@@ -137,6 +137,22 @@
                     </field> 
                 </record>
 
+
+
+                <record id="category_form_view"   model="ir.ui.view"> 
+                    <field name="name">category_form_view</field> 
+                    <field name="model">product.category</field> 
+                    <field name="inherit_id" ref="product.product_category_form_view"/> 
+                    <field name="arch" type="xml">
+
+                        <xpath expr="//field[@name='parent_id']" position="before">
+                          <field name="finish_good"/>
+                        </xpath>
+
+
+                    </field> 
+                </record>
+
             <!-- <record id="package_form_view" model="ir.ui.view">
                     <field name="name">package_form_view</field>
                     <field name="model">reg.package</field>

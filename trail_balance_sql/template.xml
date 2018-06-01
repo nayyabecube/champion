@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_trail_balance_sql" 
+            model="account.move"
+            name="trail_balance_sql.customer_report"
+            file="trail_balance_sql.customer_report"
+            report_type="qweb-html"
+            string="Trial Balance Sql"
+            menu="False"/>
+            
+
+         <record id="trail_wizard_form_view_sql" model="ir.ui.view">
+            <field name="name">trail_wizard_form_view_sql</field>
+            <field name="model">trail.balance.sql</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <group name="group_top">
+                        <group name="group_left"> 
+                            
+                            <field name="date"/>
+
+                        </group>
+
+                        <group name="group_right">
+                           <!--  <field name="b_types"/>
+                            <field name="branch" options="{'no_create':True,'no_edit':True}" widget="many2many_tags" attrs="{'invisible':[('b_types','!=','specfic')],'required':[('b_types','=','specfic')]}"/> -->
+
+                        </group>
+                        
+                    </group>
+                    <footer>
+                        <button name="%(report_for_trail_balance_sql)d" type="action" string="Print" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="trail_reports_wizard_sql" model="ir.actions.act_window">
+            <field name="name">Trial Balance Sql</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">trail.balance.sql</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="trail_wizard_form_view_sql"/>
+            <field name="target">new</field> 
+        </record>
+
+
+        <menuitem name="Trial Balance Sql" id="trail_wise_menu_sql" parent="account.menu_finance_legal_statement" action="trail_reports_wizard_sql"/>       
+
+    </data>
+</openerp>
+
+

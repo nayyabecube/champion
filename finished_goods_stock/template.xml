@@ -7,7 +7,8 @@
             name="finished_goods_stock.customer_report"
             file="finished_goods_stock.customer_report"
             report_type="qweb-html"
-            string=" "/>
+            string="Finished Goods Stock"
+            menu="False"/>
             
 
         <record id="finished_goods_stock_wizard_form_view" model="ir.ui.view">

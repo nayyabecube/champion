@@ -151,19 +151,19 @@
           sequence="1"/>
 
 
-        <menuitem name="Cash"
+        <menuitem name="Cash Book"
             id="cash_sales_configuration"
             parent="cash_configuration_main"
             action="payment_configuration"
             sequence="1"/>
 
 
-        <menuitem name="Bank"
+<!--         <menuitem name="Bank"
             id="bank_sales_configuration"
             parent="cash_configuration_main"
             action="bank_configuration"
             sequence="2"/>
-
+ -->
 
     
 

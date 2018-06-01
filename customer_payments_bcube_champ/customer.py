@@ -317,8 +317,8 @@ class CustomerPayment(models.Model):
 		else:
 			debit_account = self.partner_id.property_account_payable_id.id
 			credit_account = self.journal_id.default_credit_account_id.id
-			debit_amount = self.amount +self.t_total
-			credit_amount = self.amount
+			debit_amount = self.amount 
+			credit_amount = self.amount-self.t_total
 
 
 		self.customer_payments_bcube_payments(debit_account,credit_account,debit_amount,credit_amount)

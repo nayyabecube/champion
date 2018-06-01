@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<openerp>
+    <data>
+        <report
+            id="report_for_daily_stock_report" 
+            model="account.invoice"
+            name="daily_stock_report.customer_report"
+            file="daily_stock_report.customer_report"
+            report_type="qweb-html"
+            string="Daily Stock"
+            menu="False"/>
+            
+
+        <record id="daily_stock_report_wizard_form_view" model="ir.ui.view">
+            <field name="name">daily_stock_report_wizard_form_view</field>
+            <field name="model">daily.stockreport</field>
+            <field name="arch" type="xml">
+                <form string="Report">
+                    <group name="group_top">
+                        <group name="group_left"> 
+
+                            <field name="date_from"/>
+                            <field name="types"/>
+                        </group>
+                        <group name="group_right">
+                            <field name="date_to"/>
+
+                        </group>
+                    </group>
+                    <footer>
+                        <button name="%(report_for_daily_stock_report)d" type="action" string="Print" class="oe_highlight"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="daily_stock_report_wizard" model="ir.actions.act_window">
+            <field name="name">Daily Stock</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">daily.stockreport</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="daily_stock_report_wizard_form_view"/>
+            <field name="target">new</field> 
+        </record>
+
+        <record id="paperformat_daily_stock_report" model="report.paperformat">
+               <field name="name">Daily Stock</field>
+               <field name="orientation">Landscape</field>
+        </record>
+
+        <record id="report_for_daily_stock_report" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="paperformat_daily_stock_report"/>
+        </record>
+
+
+        <menuitem name="Daily Stock Report" id="daily_stock_report_id" parent="account.menu_finance_payables" action="daily_stock_report_wizard" sequence="15"/>       
+
+    </data>
+</openerp>
+
+

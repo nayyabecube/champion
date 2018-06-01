@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <t t-foreach="count" t-as="o"> -->
+
+                    <div class="page">
+
+                        <style>
+
+                            @media (min-width: 992px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+
+                            @media (min-width: 768px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+                            .container {
+                                width: 100%;
+                            }
+                            
+                            body {
+                                margin: 0px !important;
+                            }
+                            body.o_in_iframe {
+                                margin-top: 0px!important;
+                            }
+                           
+
+                            .main-data {
+                                width: 100%;
+                            }
+
+                            .centered {
+                                width: 100%;
+                                margin: 0px auto;
+                            }
+                            table, td, th {
+                                border: 1px solid darkgrey;
+                                border-collapse: collapse;
+                                padding: 5px;
+                                margin: 20px 0px 20px 0px;
+                                font-size: 10px;
+                        
+                            }
+                            .liquid {
+                                font-size: 10px;
+                                width: 95px;
+                                display: inline-block;
+                                border-bottom: 1px solid;
+                            }
+                            .solid {
+                                font-weight: bold;
+                                font-size: 10px;
+                            } 
+                            .clearfloat {
+                                clear: both;
+                                float: none;
+                            }
+                            .no-margin {
+                                margin-top: 0px;
+                                margin-bottom: 0px;
+                            }
+                            .stock {
+                                width: 100%;
+                            }
+                            .account {
+                                width: 33%;
+                                float: left;
+                            }
+                            .text {
+                                font-size: 8px;
+                            }
+                            .series {
+                                text-align: center;
+                            }
+                            .measure {
+                                width: 136px;
+                            }
+                            .excisable {
+                                width: 169px;
+                            }
+                            .licence {
+                                width: 186px;
+                            }
+                            .bold {
+                                font-size: 9px;
+                            }
+                            .factory {
+                                margin-top: 29px;
+                            }
+                            .manager {
+                                width: 42%;
+                            }
+                            .manager p {
+                                padding: 4px;
+                            }
+                            .variety {
+                                width: 22%;
+                            }
+                            .variety p {
+                                padding: 4px;
+                            }
+
+                            .named {
+                                width: 100%;
+                                float: left;
+                                font-size: 22px;
+                                text-align: center;
+                            }
+                            
+                            
+                        </style>
+
+
+                        <div class="main-data">
+                            <div class="centered">
+
+                                <div class="stock">
+                                    <div class="account">
+                                        <p>Note:_</p>
+                                        <p class="no-margin">
+                                        <span class="bold">1.</span>
+                                        <span class="text">Separate pages may be allocated for each variety or kind of material.</span></p>
+
+                                        <p class="no-margin">
+                                        <span class="bold">2.</span>
+                                        <span class="text">Separateemtroes sjpi;d be ,ade om Cp;/ 10. if both excisable and non-axcisable goods are manufactured/produced out of<br> the same materials.</br></span></p>
+
+                                        <p class="no-margin">
+                                        <span class="bold">3.</span>
+                                        <span class="text">Actual wastage/losses may be determined on monthly basis or on consumtion of a complete<br> batch. which ever is earlier, if it is</br> not possible to determine the same on daily basis.-
+                                        </span></p>
+
+                                        <p class="no-margin">
+                                        <span class="bold">4.</span>
+                                        <span class="text">Reasons for wastage of destruction of meterial should be given<br> in Remarks column.</br></span></p>
+
+                                        <p class="no-margin">
+                                        <span class="bold">5.</span>
+                                        <span class="text">Total should be struck at the end of the given month and fresh<br> month should be started from a new page.</br></span></p>
+
+                                    </div>
+
+                                    <div class="account manager" style="width: 35%; text-align: center;margin-top: 44px;">
+                                        <p class="no-margin series">APPENDIX-III</p>
+                                        <p class="no-margin series">Central Excise Series No. 25</p>
+                                        <p class="no-margin"><b>FORM R. G. 2</b></p>
+                                        <p class="no-margin"><b>(Rule 53-B)</b></p>
+                                        <h4 class="no-margin">Daily Stock Account of Raw Materials &amp; Packing Material Received and Issued</h4>
+                                        
+
+                                    </div>
+
+                                    <div class="account variety" style="width: 28%; margin-top: 65px; float: right;">
+                                        <p class="no-margin">
+                                        <span class="solid">Variety of Name of material</span>
+                                        <span class="liquid"></span></p>
+
+                                        <p class="no-margin">
+                                        <span class="solid">Unit of Measurement</span>
+                                        <span class="liquid measure"></span></p>
+
+                                        <p class="no-margin">
+                                        <span class="solid">Name of Manufactured (exicable/Non-<br>exicable) goods</br></span>
+                                        <span class="liquid excisable"></span></p>
+
+                                        <p class="no-margin">
+                                        <span class="solid">Licence NO.</span>
+                                        <span class="liquid licence"></span></p>
+
+                                    </div>
+
+                                    <div class="named">
+                                        <span>NAME AND ADDRESS OF FACTORY:-</span>
+                                        <span class="liquid"></span>
+                                        <span>Dated:</span>
+                                        <span class="liquid" t-esc="time.strftime('%B %Y',time.strptime(date_from,'%Y-%m-%d'))"></span>
+                                    </div>
+
+                                </div>
+
+                                <br class="clearfloat"/>
+                            
+                                    <table width="100%">
+
+                                        <tr>
+                                            <th rowspan="2">Date</th>
+                                            <th colspan="3">Receipt of Raw materials</th>
+                                            <th rowspan="2">Total quantity of Raw material in hand (with No. of pkgs)</th>
+                                            <th colspan="3">Issues of Raw Material</th>
+                                            <th rowspan="2">Quantity of material wasted or destroyed during process</th>
+                                            <th rowspan="2">Description of excisable and other goods for which this material is used</th>
+                                            <th rowspan="2">Closing Balance of Raw Materials (Qty. with No. of packages</th>
+                                            <th rowspan="2">REMARKS</th>
+                                    
+                                        </tr>
+
+                                        <tr>
+                                            <th>From shom Received</th>
+                                            <th>Voucher, Advice or Date Pass No. &amp;  date</th>
+                                            <th>Quantity (with No. of packages)</th>
+                                            <th>For removal out of the factory (Quantity with No. pkgs.)</th>
+                                            <th>For the process of manufacture (Quantity with No. of packages)</th>
+                                            <th>Qunatity of materials wasted or destroyed during process</th>
+                                            
+                                        </tr>
+
+                                        <tr>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                            <td>4</td>
+                                            <td>5</td>
+                                            <td>6</td>
+                                            <td>7</td>
+                                            <td>8</td>
+                                            <td>9</td>
+                                            <td>10</td>
+                                            <td>11</td>
+                                            <td>12</td>
+                                        </tr>
+
+                                        <t t-set="open" t-value="0"/>
+                                        <t t-set="opening" t-value="0"/>
+                                        <t t-set="purchase" t-value="0"/>
+                                        <t t-set="open_id" t-value="0"/>
+                                        <t t-set="production" t-value="0"/>
+                                        <t t-foreach="records" t-as="o">
+
+                                            <tr>
+                                                <td></td>
+                                                <td style="font-weight:bold;padding-left:8px">
+                                                    <span t-esc="o.name"></span>
+                                                </td>
+                                                <td></td>
+                                                <td style="font-weight:bold;padding-left:8px">
+                                                    <t t-set="purchase" t-value="get_purchase(o.id)"/>
+                                                    <!-- <span t-esc="purchase"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(purchase))"></span>
+                                                </td>
+                                                <td style="font-weight:bold;padding-left:8px">
+                                                    <t t-set="open_id" t-value="get_open(o.id)"/>
+                                                    <!-- <span t-esc="open_id"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(open_id))"></span>
+
+                                                </td>
+                                                <td></td>
+                                                <td style="font-weight:bold;padding-left:8px">
+                                                    <t t-set="production" t-value="get_prod(o.id)"/>
+                                                    <!-- <span t-esc="production"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(production))"></span>
+
+                                                </td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                 <td style="font-weight:bold;padding-left:8px">
+                                                    <t t-set="open" t-value="(purchase+open_id)-production"/>
+                                                    <!-- <span t-esc="open"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(open))"></span>
+
+                                                </td>
+                                                <td></td>
+                                            </tr>
+
+                                            <t t-set="opening" t-value="open"/>
+                                            <t t-set="line_open" t-value="0"/>
+                                            <t t-set="purchase_val" t-value="0"/>
+                                            <t t-set="production_val" t-value="0"/>
+                                            <t t-foreach="dates" t-as="line">
+
+
+                                                <tr>
+                                                    <td>
+                                                        <span t-esc="line"></span>
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <t t-set="purchase_val" t-value="get_purchase_val(o.id,line)"/>
+                                                        <!-- <span t-esc="purchase_val"></span> -->
+                                                        <span t-esc="'{0:,.2f}'.format(float(purchase_val))"></span>
+
+                                                    </td>
+                                                    <td>
+                                                        <!-- <span t-esc="opening"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(opening))"></span>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td>
+                                                        <t t-set="production_val" t-value="get_prod_val(o.id,line)"/>
+                                                        <!-- <span t-esc="production_val"></span> -->
+                                                        <span t-esc="'{0:,.2f}'.format(float(production_val))"></span>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>
+                                                        <t t-set="line_open" t-value="(purchase_val+opening)-production_val"/>
+                                                        <!-- <span t-esc="line_open"></span> -->
+                                                        <span t-esc="'{0:,.2f}'.format(float(line_open))"></span>
+
+                                                    </td>
+                                                    <td></td>
+                                                    <t t-set="opening" t-value="line_open"/>
+
+                                                </tr>
+
+                                            </t>
+
+                                        </t>
+                                        
+
+                                    </table>
+                                
+                            </div>
+                            
+                        </div>  
+
+                    </div>
+
+                    <!-- </t> -->
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>

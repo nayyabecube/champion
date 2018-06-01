@@ -55,11 +55,46 @@ class ItemDescBcube(models.Model):
 class AccountInvoiceBcube(models.Model):
 	_inherit            = 'account.invoice'
 
-	date_invoice = fields.Date("date_invoice", required=True, readonly=False, select=True, default=lambda self: fields.date.today())
+	# date_invoice = fields.Date("date_invoice", required=True, readonly=False, select=True, default=lambda self: fields.date.today())
 	vender_ntn = fields.Char(string="Vender NTN No.")
 	sales_reg_no = fields.Char(string="Sales Tax Registeration No.")
 	invoice_no = fields.Char(string="Invoice No.")
 	payment_term = fields.Many2one('account.payment.term',string="Payment Term")
+	discount_id = fields.Many2one('account.account',string="Discount Acoount")
+
+
+	@api.multi
+	def action_invoice_open(self):
+		new_record = super(AccountInvoiceBcube, self).action_invoice_open()
+		if self.move_id and self.type == "out_invoice":
+			self.move_id.button_cancel()
+			self.move_id.line_ids.unlink()
+			new = 0
+			for i in self.invoice_line_ids:
+				new = new + ((i.quantity * i.price_unit) - i.price_subtotal)
+
+			creat_dis = self.create_entry_lines(self.discount_id.id,self.partner_id.id,"Discount",new,0,self.move_id.id)
+			creat_debit = self.create_entry_lines(self.partner_id.property_account_receivable_id.id,self.partner_id.id,self.partner_id.name,self.amount_total,0,self.move_id.id)
+			for x in self.invoice_line_ids:
+				value = 0
+				value = x.quantity * x.price_unit
+				creat_credit = self.create_entry_lines(x.account_id.id,self.partner_id.id,x.account_id.name,0,value,self.move_id.id)
+			for z in self.tax_line_ids:
+				creat_tax = self.create_entry_lines(z.account_id.id,self.partner_id.id,z.account_id.name,0,z.amount,self.move_id.id)
+
+
+		return new_record
+
+
+	def create_entry_lines(self,account,name,label,debit,credit,entry_id):
+		self.env['account.move.line'].create({
+				'account_id':account,
+				'partner_id':name,
+				'name':label,
+				'debit':debit,
+				'credit':credit,
+				'move_id':entry_id,
+				})
 
 	@api.one
 	def _compute_amount(self):
@@ -308,6 +343,9 @@ class ProductExtend(models.Model):
 		('G', 'G'),
 		('Mg','Mg'),], string='Uom')
 
+	product_pack = fields.Many2one('product.product',string="Pack Product")
+
+
 
 	@api.model
 	def create(self, vals):
@@ -316,6 +354,7 @@ class ProductExtend(models.Model):
 		rec.naming_type = new_record.naming_type
 		rec.product_receipe = new_record.product_receipe.id
 		rec.uom = new_record.uom
+		rec.product_pack = new_record.product_pack.id
 		return new_record
 
 
@@ -328,6 +367,7 @@ class ProductExtend(models.Model):
 				x.naming_type = self.naming_type
 				x.product_receipe = self.product_receipe.id
 				x.uom = self.uom
+				x.product_pack = self.product_pack.id
 		return res
 
 
@@ -346,6 +386,15 @@ class ProductExtended(models.Model):
 		('Kg', 'Kg'),
 		('G', 'G'),
 		('Mg','Mg'),], string='Uom')
+	product_pack = fields.Many2one('product.product',string="Pack Product")
+
+	@api.multi
+	def get_type(self):
+		rec = self.env['product.template'].search([('type','!=','product')])
+		for x in rec:
+			if x.type:
+				x.type = "product"
+
 
 
 class ProductReceipe(models.Model):
@@ -364,6 +413,28 @@ class ProductReceipeTree(models.Model):
 	product = fields.Many2one('product.product',string="Product")
 	ratio = fields.Float('Ratio')
 	receipe_tree = fields.Many2one('product.receipe')
+
+
+class move_extend_line(models.Model):
+	_inherit = 'account.move'
+
+
+	@api.multi
+	def assert_balanced(self):
+		if not self.ids:
+			return True
+		prec = self.env['decimal.precision'].precision_get('Account')
+
+		self._cr.execute("""\
+			SELECT      move_id
+			FROM        account_move_line
+			WHERE       move_id in %s
+			GROUP BY    move_id
+			HAVING      abs(sum(debit) - sum(credit)) > %s
+			""", (tuple(self.ids), 10 ** (-max(5, prec))))
+		# if len(self._cr.fetchall()) != 0:
+		#     raise UserError(_("Cannot create unbalanced journal entry."))
+		return True
 
 
 

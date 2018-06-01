@@ -106,48 +106,39 @@ class SampleDevelopmentReport(models.AbstractModel):
         sizes = []
         def get_size(attr):
             del sizes[:]
-            prod_temp = self.env['product.template'].search([('categ_id.finish_good','=',True),('categ_id','=',attr)])
+            prod_temp = self.env['product.product'].search([('categ_id.finish_good','=',True),('categ_id','=',attr)])
             for x in prod_temp:
-                for y in x.attribute_line_ids:
-                    if y.attribute_id.name == 'Size':
-                        for z in y.attribute_id.value_ids:
-                            if "Litre" in str(z.name) or "Ltr" in str(z.name) or "Lt" in str(z.name):
-                                if re.findall(r"[-+]?\d*\.\d+|\d+", z.name):
-                                    n = float(re.findall("[-+]?\d*\.\d+|\d+", z.name)[0])
-                                    if n not in sizes:
-                                        sizes.append(n)
+                for y in x.attribute_value_ids:
+                    if y.attribute_id.name == "Size" or y.attribute_id.name == "size":
+                        if "Litre" in str(y.name) or "Ltr" in str(y.name) or "Lt" in str(y.name):
+                            if re.findall(r"[-+]?\d*\.\d+|\d+", y.name):
+                                n = float(re.findall("[-+]?\d*\.\d+|\d+", y.name)[0])
+                                if n not in sizes:
+                                    sizes.append(n)
 
-
-
+               
 
 
         def get_value(attr,num):
             current_month = str(date[:7])
-            value = 8
-            products = []
-            prod_temp = self.env['product.template'].search([('categ_id.finish_good','=',True),('categ_id','=',attr)])
-            for x in prod_temp:
-                for y in x.attribute_line_ids:
-                    if y.attribute_id.name == 'Size':
-                        for z in y.attribute_id.value_ids:
-                            if "Litre" in str(z.name) or "Ltr" in str(z.name) or "Lt" in str(z.name):
-                                if re.findall(r"[-+]?\d*\.\d+|\d+", z.name):
-                                    n = float(re.findall("[-+]?\d*\.\d+|\d+", z.name)[0])
-                                    if n == num:
-                                        if x not in products:
-                                            products.append(x)
-
-
-            for z in products:
-                daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id','=',attr),('product.product_tmpl_id','=',z.id)])
+            value = 0
+            daily = self.env['daily.production.tree'].search([('product.categ_id.finish_good','=',True),('product.categ_id','=',attr)])
+            if daily:
                 for y in daily:
-                    if daily:
-                        if y.date:
-                            if str(y.date[:7]) == current_month:
-                                value = value + y.qty_lit
+                    if y.date:
+                        if str(y.date[:7]) == current_month:
+                            for z in y.product.attribute_value_ids:
+                                if z.attribute_id.name == "Size" or z.attribute_id.name == "size":
+                                    if "Litre" in str(z.name) or "Ltr" in str(z.name) or "Lt" in str(z.name):
+                                        if re.findall(r"[-+]?\d*\.\d+|\d+", z.name):
+                                            n = float(re.findall("[-+]?\d*\.\d+|\d+", z.name)[0])
+                                            if n == num:
+                                                value = value + y.qty_lit
+
 
             return value
 
+               
 
 
         docargs = {

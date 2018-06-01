@@ -38,7 +38,7 @@
                     <field name="reference"  placeholder="e.g. 003/10" attrs="{'readonly':[('state','=','post')]}"/> 
                     <field name="name"  placeholder="e.g. invoice SAJ/0042" attrs="{'readonly':[('state','=','post')]}"/>
                     <field name="journal_entry_id"  readonly = "True"/>   
-                    <field name="receipts" />  
+                    <field name="receipts" invisible="1"/>  
              <!--        <field name = "firm_partner" attrs="{'readonly':[('state','=','post')]}"/>
                     <field name = "tagm_entity" attrs="{'readonly':[('state','=','post')]}"/>  -->
                     

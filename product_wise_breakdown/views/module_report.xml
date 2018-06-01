@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+
+    <data>   
+
+        <template id="customer_report">
+
+            <t t-call="report.html_container">
+                <t t-call="report.external_layout">
+                    <!-- <t t-foreach="count" t-as="o"> -->
+
+                    <div class="page">
+
+                        <style>
+
+                            @media (min-width: 992px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+
+                            @media (min-width: 768px) {
+                                .container {
+                                    width: 100%;
+                                }
+                            }
+                            .container {
+                                width: 100%;
+                            }
+                            
+                            body {
+                                margin: 0px !important;
+                            }
+                            body.o_in_iframe {
+                                margin-top: 0px!important;
+                            }
+                           
+
+                            .main-data {
+                                width: 100%;
+                            }
+                            body {
+                                text-align: right;
+                            }
+                            .center-data {
+                                width: 100%;
+                                margin: 0px auto;
+                            }
+                            .center-data p {
+                                text-align: center;
+                            }
+                            table, td, th {
+                                text-align: center;
+                                border: 1px solid;
+                                border-collapse: collapse;
+                                padding: 6px;
+                                margin: 10px 0px 10px 0px;
+                                font-size: 10px;
+                            }
+                            table td {
+                                font-size: 10px;
+                            }
+                            .solid {
+                                font-weight: bold;
+                                margin-left: 5px;
+                            }
+                            .liquid {
+                                margin-left: 0px;
+                            }
+                            h3 {
+                                text-align: center;
+                            }
+                            .ntn {
+                                width: 33%;
+                                float: left;
+                            }
+                            .ntn .liquid {
+                                width: 50%;
+                                border: 1px solid;
+                                display: inline-block;
+                            }
+                            .champion {
+                                width: 100%;
+                            }
+                            .champion .liquid {
+                                width: 80%;
+                                border: 1px solid;
+                                display: inline-block;
+                            }
+                            
+                        </style>
+
+                        <div class="main-data">
+
+                            <div class="center-data">
+                                
+                                <table width="100%">
+
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Clearance</th>
+                                        <th>Qty</th>
+                                        <th>Pack</th>
+                                        <th>Total</th>
+                                        <th>WPL</th>
+                                        <th>KG.TOT</th>
+                                        <th colspan="2">Loss</th>
+                                        <th>Total</th>
+                                      
+                                        <t t-foreach="enteries" t-as="data">
+                                            <th>
+                                                <span t-esc="data.name"></span>
+                                            </th>
+                                        </t>
+                                    </tr>
+
+                                    <t t-foreach="dates" t-as="o">
+                                        <tr>
+                                            <td t-att-colspan="10+number" style="text-align:left;padding-left:8px;font-weight:bold">
+                                                <span t-esc="o"></span>
+                                            </td>
+                                        </tr>
+
+                                        <t t-set="tot1" t-value="0"/>
+                                        <t t-set="tot2" t-value="0"/>
+                                        <t t-set="tot3" t-value="0"/>
+                                        <t t-set="debit" t-value="0"/>
+                                        <t t-set="total" t-value="0"/>
+                                        <t t-set="total1" t-value="0"/>
+                                        <t t-set="total2" t-value="0"/>
+                                        <t t-set="total3" t-value="0"/>
+                                        <span t-esc="get_prod(o)"></span>
+                                        <t t-foreach="records" t-as="line">
+
+                                            <tr>
+                                                <td></td>
+                                                <td>
+                                                    <span t-esc="line.name"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="get_qty(o,line.id)"></span>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="get_size(o,line.id)"></span>
+
+                                                </td>
+                                                <td>
+                                                    <t t-set="tot1" t-value="get_size(o,line.id)*get_qty(o,line.id)"/>
+                                                    <span t-esc="'{0:,.2f}'.format(float(tot1))"></span>
+                                                    <t t-set="total" t-value="total+tot1"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line.product_receipe.wpl"></span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="tot2" t-value="tot1*line.product_receipe.wpl"/>
+                                                    <span t-esc="'{0:,.2f}'.format(float(tot2))"></span>
+                                                    <t t-set="total1" t-value="total1+tot2"/>
+                                                </td>
+                                                <td>
+                                                    <span t-esc="line.product_receipe.wastage"></span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="tot3" t-value="(tot2*line.product_receipe.wastage)/100"/>
+                                                    <span t-esc="tot3"></span>
+                                                </td>
+                                                <td>
+                                                    <t t-set="tot4" t-value="tot2+tot3"/>
+                                                    <span t-esc="'{0:,.2f}'.format(float(tot4))"></span>
+                                                    <t t-set="total2" t-value="total2+tot4"/>
+
+                                                </td>
+
+                                                <t t-foreach="enteries" t-as="data">
+
+                                                    <td>
+
+                                                        <t t-set="debit" t-value="get_recp(o,line.id,data.id)"/>
+
+                                                        <t t-if = "debit == 0">
+                                                            <span>-</span>
+                                                        </t>
+
+                                                        <t t-if = "debit != 0">
+                                                            <span t-esc="debit"></span>
+                                                            <!-- <span t-esc="'{0:,.2f}'.format(float(debit))"></span> -->
+
+                                                        </t>
+                                                        
+                                                        
+
+                                                    </td>
+
+                                                </t>
+
+                                            </tr>
+
+                                        </t>
+
+                                        <tr>
+
+                                            <th colspan="4">Total</th>
+                                            <th>
+                                                <!-- <span t-esc="total"></span> -->
+                                                <span t-esc="'{0:,.2f}'.format(float(total))"></span>
+
+
+                                            </th>
+                                            <th>-</th>
+                                            <th>
+                                                <!-- <span t-esc="total1"></span> -->
+                                                <span t-esc="'{0:,.2f}'.format(float(total1))"></span>
+
+                                            </th>
+                                            <th>-</th>
+                                            <th>-</th>
+                                            <th>
+                                                <!-- <span t-esc="total2"></span> -->
+                                                <span t-esc="'{0:,.2f}'.format(float(total2))"></span>
+
+                                            </th>
+
+                                            <t t-foreach="enteries" t-as="data">
+                                                <th>
+                                                    <!-- <span t-esc="get_tot(o,data.id)"></span> -->
+                                                    <span t-esc="'{0:,.2f}'.format(float(get_tot(o,data.id)))"></span>
+
+                                                </th>
+                                            </t>
+
+                                        </tr>
+
+                                    </t>
+
+
+                                  
+                                </table>
+                                
+
+                            </div>
+
+                        </div>  
+
+                    </div>
+
+                    <!-- </t> -->
+
+                </t>
+            </t>
+
+        </template>
+
+    </data>
+
+</openerp>
